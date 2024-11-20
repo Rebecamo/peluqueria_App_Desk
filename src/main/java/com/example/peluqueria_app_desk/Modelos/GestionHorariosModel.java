@@ -75,6 +75,18 @@ public class GestionHorariosModel {
         this.disponible = disponible;
     }
 
+    @Override
+    public String toString() {
+        return "GestionHorariosModel{" +
+                "idHorario=" + idHorario +
+                ", idEmpleado=" + idEmpleado +
+                ", diaSemana='" + diaSemana + '\'' +
+                ", horaInicio='" + horaInicio + '\'' +
+                ", horaFin='" + horaFin + '\'' +
+                ", disponible='" + disponible + '\'' +
+                '}';
+    }
+
     public List<GestionHorariosModel> obtenerHorarios() {
         List<GestionHorariosModel> list_horarios = new ArrayList<>();
 
