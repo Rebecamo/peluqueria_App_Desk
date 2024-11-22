@@ -20,7 +20,7 @@ public class Autenticacion {
 
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                idEmpleadoLogueado = rs.getInt("idempleado");
+                idEmpleadoLogueado = rs.getInt("id_empleado");
                 return true; // Inicio de sesión exitoso
             }
         } catch (Exception e) {
