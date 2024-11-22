@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="629.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionReservasController">
+   <children>
+      <Label layoutX="285.0" layoutY="14.0" text="Gestion de Reservas">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tbReservas" layoutX="41.0" layoutY="50.0" prefHeight="243.0" prefWidth="686.0">
+        <columns>
+          <TableColumn fx:id="colidReserva" prefWidth="75.0" text="ID Reserva" />
+          <TableColumn fx:id="colidCliente" prefWidth="75.0" text="ID Cliente" />
+            <TableColumn fx:id="colidEmpleado" prefWidth="97.0" text="ID Empleado" />
+            <TableColumn fx:id="colidServicio" prefWidth="84.0" text="ID Servicio" />
+            <TableColumn fx:id="colFechaReserva" prefWidth="121.0" text="Fecha Reserva" />
+            <TableColumn fx:id="colHora" prefWidth="113.0" text="Hora Reserva" />
+            <TableColumn fx:id="clEstadoReserva" prefWidth="120.0" text="Estado Reserva" />
+        </columns>
+      </TableView>
+      <Label layoutX="41.0" layoutY="333.0" prefHeight="31.0" prefWidth="83.0" text="Id Reserva:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtidReserva" editable="false" layoutX="124.0" layoutY="339.0" prefHeight="25.0" prefWidth="164.0" />
+      <Label layoutX="38.0" layoutY="396.0" text="Fecha Reserva:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <DatePicker fx:id="dateFechaReserva" layoutX="159.0" layoutY="396.0" />
+      <Label layoutX="41.0" layoutY="453.0" text="Hora Reserva:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txtHoraReserva" layoutX="142.0" layoutY="453.0" promptText="HH:mm" />
+      <Label layoutX="41.0" layoutY="511.0" text="Estado Reserva:">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="cmbEstadoReserva" layoutX="164.0" layoutY="511.0" prefHeight="25.0" prefWidth="164.0" />
+      <Button fx:id="btnAceptar" layoutX="473.0" layoutY="322.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar" />
+      <Button fx:id="btnModificar" layoutX="473.0" layoutY="402.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar" />
+      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="502.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar" />
+   </children>
+</AnchorPane>
