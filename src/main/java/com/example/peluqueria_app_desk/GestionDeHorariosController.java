@@ -27,13 +27,13 @@ public class GestionDeHorariosController {
         String horaInicio = cmbHoraInicio.getValue();
         String horaFin = cmbHoraFin.getValue();
         String disponibilidad = cmbDisponibilidad.getValue();
-        String diaSemana = cmbDiaSemana.getValue(); // Si tienes un ComboBox para días
+        String diaSemana = cmbDiaSemana.getValue(); // Si tienes un ComboBox para ías
 
         try (Connection connection = ConexionDB.connection();
              PreparedStatement statement = connection.prepareStatement(
                      "INSERT INTO tbl_HorariosDisponibles (idEmpleado, diaSemana, horaInicio, horaFin, disponible) VALUES (?, ?, ?, ?, ?)")) {
 
-            statement.setInt(1, idEmpleado);
+            statement.setString(1,servicioSeleccionado);
             statement.setString(2, diaSemana);
             statement.setTime(3, Time.valueOf(horaInicio + ":00"));
             statement.setTime(4, Time.valueOf(horaFin + ":00"));
@@ -75,6 +75,7 @@ public class GestionDeHorariosController {
 
 
     }
+
 
 
 }
