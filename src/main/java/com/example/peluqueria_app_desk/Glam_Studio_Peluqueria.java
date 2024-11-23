@@ -7,17 +7,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Glam_Studio_Peluqueria  extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("view_login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Glam_Studio_Peluqueria.class.getResource("view_login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 400, 500);
-        stage.setTitle("Hello!");
+        stage.setTitle("Peluqueria Glam Studio");
         stage.setScene(scene);
         stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch();
     }
 }
