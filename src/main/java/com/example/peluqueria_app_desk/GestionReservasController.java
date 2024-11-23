@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
+import java.time.LocalDate;
+
 public class GestionReservasController {
     @FXML
     private Button btnAceptar;
@@ -26,19 +28,19 @@ public class GestionReservasController {
     private ComboBox<String> cmbEstadoReserva;
 
     @FXML
-    private TableColumn<?, ?> colFechaReserva;
+    private TableColumn<ReservasModel, LocalDate> clFechaReserva;
 
     @FXML
-    private TableColumn<ReservasModel, String> colHora;
+    private TableColumn<ReservasModel, String> clHoraReserva;
 
     @FXML
-    private TableColumn<ReservasModel, Integer> colidCliente;
+    private TableColumn<ReservasModel, Integer> clidCliente;
 
     @FXML
-    private TableColumn<ReservasModel, Integer> colidEmpleado;
+    private TableColumn<ReservasModel, Integer> clidEmpleado;
 
     @FXML
-    private TableColumn<ReservasModel, Integer> colidReserva;
+    private TableColumn<ReservasModel, Integer> clidReserva;
 
     @FXML
     private TableColumn<ReservasModel, Integer> colidServicio;
@@ -58,14 +60,14 @@ public class GestionReservasController {
     private ReservasModel reservas;
 
     public void initialize(){
+      
 
-
-        this.colidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
-        this.colidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
-        this.colidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+        this.clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
+        this.clidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
+        this.clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
         this.colidServicio.setCellValueFactory(new PropertyValueFactory<>("idServicio"));
-        this.colFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
-        this.colHora.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
+        this.clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
+        this.clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
         this.clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
         this.cargarTabla();
         this.cargarComboBox();
