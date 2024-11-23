@@ -1,6 +1,10 @@
 package com.example.peluqueria_app_desk;
 
+import com.example.peluqueria_app_desk.Modelos.HistorialModel;
 import com.example.peluqueria_app_desk.Modelos.ReservasModel;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
@@ -11,72 +15,50 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.chart.XYChart;
 
-public class HistorialReservasController {
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+public class HistorialReservasController {
+    @FXML
+    private TableView<ReservasModel> tblReservas;
+
+    @FXML
+    private TableColumn<ReservasModel, Integer> clidReserva;
+    @FXML
+    private TableColumn<ReservasModel, String> clCliente;
+    @FXML
+    private TableColumn<ReservasModel, String> clServicio;
+    @FXML
+    private TableColumn<ReservasModel, LocalDate> clFechaReserva;
+    @FXML
+    private TableColumn<ReservasModel, String> clHoraReserva;
+    @FXML
+    private TableColumn<ReservasModel, String> clEmpleado;
     @FXML
     private TableColumn<ReservasModel, String> clEstadoReserva;
 
-    @FXML
-    private TableColumn<ReservasModel, String> clFechaReserva;
+    private ReservasModel reservasModel = new ReservasModel();
 
-    @FXML
-    private TableColumn<ReservasModel, String > clHoraReserva;
+    public void initialize() {
+        // Configurar columnas
 
-    @FXML
-    private LineChart<String, Number> grafTendencias;
+        clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
+        clCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
+        clServicio.setCellValueFactory(new PropertyValueFactory<>("servicio"));
+        clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fecha"));
 
-    @FXML
-    private ListView<String> listClientesFrecuentes;
+        clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
+        clEmpleado.setCellValueFactory(new PropertyValueFactory<>("empleado"));
+        clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
 
-    @FXML
-    private ListView<String> listHorariosDemandados;
-    private CategoryAxis xAxis;
-    private NumberAxis yAxis;
-
-    @FXML
-    private TableView<ReservasModel> tbViewRservas;
-
-    private ReservasModel reservasModel;
-
-
-
-    public HistorialReservasController(){
-        reservasModel = new ReservasModel();
+        // Cargar datos en la tabla
+        cargarDatos();
     }
 
-    //Metodo para inicializar el controlador y cargar los datos
-    public void initialize(){
-        this.clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
-        this.clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
-        this.clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
-        cargarTabla();
-        cargarClientesFrecuentes();
-        cargarHorariosDemandados();
-
+    @FXML
+    private void cargarDatos() {
+        ObservableList<ReservasModel> reservas = reservasModel.getReservas(); // Método ya implementado
+        tblReservas.setItems(reservas);
     }
-
-    private void cargarTabla(){
-        tbViewRservas.setItems(reservasModel.getReservas());
-    }
-
-    private void cargarClientesFrecuentes(){
-        listClientesFrecuentes.setItems(reservasModel.getClientesFrecuentes());
-    }
-
-    private void cargarHorariosDemandados(){
-        listHorariosDemandados.setItems(reservasModel.getHorariosDemandados());
-    }
-
-    private void cargarTendencias(){
-        xAxis = new CategoryAxis();
-        yAxis = new NumberAxis();
-/*
-        grafTendencias.setXAxis(xAxis);
-        grafTendencias.setYAxis(yAxis);*/
-
-        XYChart.Series<String, Number> series = new XYChart.Series<>();
-
-    }
-
-
 }

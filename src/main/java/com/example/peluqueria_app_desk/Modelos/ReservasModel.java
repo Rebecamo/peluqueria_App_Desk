@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ReservasModel {
@@ -194,7 +195,12 @@ public class ReservasModel {
         }
 
     }
-
+    public ReservasModel(String cliente, String servicio, LocalDateTime fechaReserva, String empleado, String estado) {
+        // Inicialización de atributos según sea necesario
+        // Si no tienes atributos cliente, servicio, etc., puedes omitirlos
+        this.fechaReserva = fechaReserva.toLocalDate();
+        this.estadoReserva = estado;
+    }
 
     public int saveReservas(){
         Connection con = null;
