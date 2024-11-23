@@ -23,13 +23,28 @@ public class GestionController {
 
     private int empleadoId; // ID del empleado que inició sesión
 
-    public void setEmpleadoId(int empleadoId) {
+  public void setEmpleadoId(int empleadoId) {
         this.empleadoId = empleadoId;
 
         // Puedes usar este ID para cargar datos del empleado, si es necesario
         lblEmpleado.setText("Bienvenido, empleado ID: " + empleadoId);
     }
+  @FXML
+  private void HistorialReservas() {
+      try {
+          FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_historial_reservas.fxml"));
+          Stage stage = (Stage) btnHistorialReservas.getScene().getWindow();
+          stage.setScene(new Scene(fxmlLoader.load()));
+          stage.setTitle("Historial reservas");
 
+          // Pasar el ID del empleado al controlador de la vista de servicios
+          // HistorialReservasController historialReservasController = fxmlLoader.getController();
+          // historialReservasController.initialize(empleadoId);*/
+
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
+  }
     @FXML
     private void gestionarHorarios() {
         try {
@@ -65,19 +80,5 @@ public class GestionController {
             e.printStackTrace();
         }
     }
-    private void HistorialReservas() {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_historial_reservas.fxml"));
-            Stage stage = (Stage) btnHistorialReservas.getScene().getWindow();
-            stage.setScene(new Scene(fxmlLoader.load()));
-            stage.setTitle("Historial reservas");
 
-            // Pasar el ID del empleado al controlador de la vista de servicios
-            //HistorialReservasController serviciosController = fxmlLoader.getController();
-          //  serviciosController.setEmpleadoId(empleadoId);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }
