@@ -3,9 +3,8 @@ package com.example.peluqueria_app_desk.Modelos;
 import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class EmpleadoModel {
     private int idEmpleado;
@@ -91,8 +90,27 @@ public class EmpleadoModel {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
+
+    public int validarCredenciales(String correo, String contraseña) {
+        try (Connection connection = ConexionDB.getConnection()) {
+            String query = "SELECT id_empleado FROM tblEmpleados WHERE correo = ? AND contraseña = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, correo); // Sustituir el primer "?" por el correo
+            statement.setString(2, contraseña); // Sustituir el segundo "?" por la contraseña
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                // Si encuentra un empleado, retornar su ID
+                return resultSet.getInt("id_empleado");
+            } else {
+                // Retornar -1 si las credenciales son incorrectas
+                return -1;
+            }
+        } catch (Exception e) {
+            // Manejar errores y retornar -1 en caso de fallo
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
-
-
-
-
