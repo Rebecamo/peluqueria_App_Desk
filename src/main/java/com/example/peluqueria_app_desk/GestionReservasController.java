@@ -76,7 +76,7 @@ public class GestionReservasController {
             public void handle(MouseEvent mouseEvent) {
                 ReservasModel reservasTemporal = tbReservas.getSelectionModel().getSelectedItem();
                 txtidReserva.setText(String.valueOf(reservasTemporal.getIdReserva()));
-                dateFechaReserva.setValue(java.time.LocalDate.parse(reservasTemporal.getFechaReserva()));
+                dateFechaReserva.setValue(reservasTemporal.getFechaReserva());
                 txtHoraReserva.setText(reservasTemporal.getHoraReserva());
                 cmbEstadoReserva.setValue(reservasTemporal.getEstadoReserva());
             }
@@ -106,13 +106,24 @@ public class GestionReservasController {
     private void clickAceptar(){
         if(tbReservas.getSelectionModel().getSelectedItem()!= null){
             ReservasModel reservaSeleccionada = tbReservas.getSelectionModel().getSelectedItem();
-            reservaSeleccionada.setEstadoReserva("Confirmada");
-            //editar la reserva en la base de datos
-            int result = reservaSeleccionada.editReservas();
-            if(result > 0){
-                cargarTabla();
-                limpiarCampos();
+
+            if("Pendiente".equals(reservaSeleccionada.getEstadoReserva())){
+                reservaSeleccionada.setEstadoReserva("Confirmada");
+                //editar la reserva en la base de datos
+                int result = reservaSeleccionada.editReservas();
+                if(result > 0){
+                    cargarTabla();
+                    limpiarCampos();
+                }
+            }else{
+                showAlert("Infor", "La reserva  no está pendiente, no se puede confirmar.", Alert.AlertType.INFORMATION);
+                /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Error");
+                alert.setContentText("La reserva no está pendiente, no se puede confirmar");
+                alert.show();*/
+
             }
+
         }
 
     }
@@ -121,13 +132,22 @@ public class GestionReservasController {
     private void clickCancelar(){
         if(tbReservas.getSelectionModel().getSelectedItem()!= null){
             ReservasModel reservaSeleccionada = tbReservas.getSelectionModel().getSelectedItem();
-            reservaSeleccionada.setEstadoReserva("Cancelada");
-            //editar la reserva en la base de datos
-            int result = reservaSeleccionada.editReservas();
-            if (result > 0){
-                cargarTabla();
-                limpiarCampos();
+            if("Pendiente".equals(reservaSeleccionada.getEstadoReserva()) || "Confirmada".equals(reservaSeleccionada.getEstadoReserva())){
+                reservaSeleccionada.setEstadoReserva("Cancelada");
+                //editar la reserva en la base de datos
+                int result = reservaSeleccionada.editReservas();
+                if (result > 0){
+                    cargarTabla();
+                    limpiarCampos();
+                }
+            }else{
+                showAlert("Informacion", "La reserva ya está cancelada.", Alert.AlertType.INFORMATION);
+                /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Informacion");
+                alert.setContentText("La reserva ya esta cancelada");
+                alert.show();*/
             }
+
         }
     }
 
@@ -135,8 +155,17 @@ public class GestionReservasController {
     private void clickModificar(){
         if(tbReservas.getSelectionModel().getSelectedItem()!=null){
             ReservasModel reservaSeleccionada = tbReservas.getSelectionModel().getSelectedItem();
-            reservaSeleccionada.setFechaReserva(dateFechaReserva.getValue().toString());
-            reservaSeleccionada.setHoraReserva(txtHoraReserva.getText());
+            //obtener la hora de la caja de texto y asegurar que esta en el formato correcto
+            String nuevaHora = txtHoraReserva.getText();
+            //validacion para el formato de hora (HH:mm)
+            if(nuevaHora.matches("\\d{2}:\\d{2}")){
+                reservaSeleccionada.setHoraReserva(nuevaHora);
+            }else{
+                showAlert("Error","Por favor, ingresa una hora valida en formato HH:mm", Alert.AlertType.ERROR);
+                return;
+            }
+            reservaSeleccionada.setFechaReserva(dateFechaReserva.getValue());
+            //reservaSeleccionada.setHoraReserva(txtHoraReserva.getText());
             reservaSeleccionada.setEstadoReserva(cmbEstadoReserva.getValue());
             int result = reservaSeleccionada.editReservas();
             if (result > 0){
@@ -155,6 +184,15 @@ public class GestionReservasController {
         cmbEstadoReserva.getSelectionModel().clearSelection();
         dateFechaReserva.setValue(null);
     }
+
+    private void showAlert(String title, String message, Alert.AlertType alertType){
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 
 
 
