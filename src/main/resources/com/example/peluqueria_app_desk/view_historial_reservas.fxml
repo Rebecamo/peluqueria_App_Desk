@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/22" fx:controller="com.example.peluqueria_app_desk.HistorialReservasController" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Label prefHeight="60.0" text="Historial de Reserva" BorderPane.alignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <LineChart fx:id="grafTendencias" prefHeight="382.0" prefWidth="421.0">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <TableView fx:id="tbViewRservas" prefHeight="200.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="clFechaReserva" prefWidth="136.0" text="Fecha Reserva" />
+                <TableColumn fx:id="clHoraReserva" prefWidth="178.0" text="Hora Reserva" />
+                  <TableColumn fx:id="clEstadoReserva" prefWidth="156.0" text="Estado Reserva" />
+              </columns>
+            </TableView>
+         </children>
+         <padding>
+            <Insets top="20.0" />
+         </padding>
+      </VBox>
+   </center>
+   <right>
+      <VBox prefHeight="425.0" prefWidth="425.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Clientes Frecuentes">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="listClientesFrecuentes" prefHeight="220.0" prefWidth="200.0" />
+            <Label text="Horarios Demandados">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <ListView fx:id="listHorariosDemandados" prefHeight="220.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </right>
+</BorderPane>
