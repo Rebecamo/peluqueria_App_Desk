@@ -70,9 +70,9 @@ public class HistorialReservasController {
     private void cargarTendencias(){
         xAxis = new CategoryAxis();
         yAxis = new NumberAxis();
-
+/*
         grafTendencias.setXAxis(xAxis);
-        grafTendencias.setYAxis(yAxis);
+        grafTendencias.setYAxis(yAxis);*/
 
         XYChart.Series<String, Number> series = new XYChart.Series<>();
 
