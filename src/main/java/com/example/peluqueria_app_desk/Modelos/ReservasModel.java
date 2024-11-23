@@ -89,9 +89,12 @@ public class ReservasModel {
     }
 
     public ObservableList<ReservasModel> getReservas(){
-        Connection connection = ConexionDB.connection();
-        ObservableList<ReservasModel>dataReservas = FXCollections.observableArrayList();
+        Connection connection = null;
         try {
+            connection = ConexionDB.connection();
+
+        ObservableList<ReservasModel>dataReservas = FXCollections.observableArrayList();
+
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("SELECT *FROM tbl_reservas;");
             while(resultSet.next()){
@@ -194,9 +197,12 @@ public class ReservasModel {
 
 
     public int saveReservas(){
-        Connection con = ConexionDB.connection();
-        PreparedStatement preparedStatement = null;
+        Connection con = null;
         try {
+            con = ConexionDB.connection();
+
+        PreparedStatement preparedStatement = null;
+
             preparedStatement = con.prepareStatement("INSERT INTO tbl_reservas(idcliente, idempleado, idservicio, fechareserva, horareserva, estadoreserva) VALUES (?, ?, ?, ?, ?, ?);");
             preparedStatement.setInt(1,this.idCliente );
             preparedStatement.setInt(2,this.idEmpleado);
@@ -213,9 +219,12 @@ public class ReservasModel {
     }
 
     public int editReservas(){
-        Connection con = ConexionDB.connection();
-        PreparedStatement preparedStatement = null;
+        Connection con = null;
         try {
+            con = ConexionDB.connection();
+
+        PreparedStatement preparedStatement = null;
+
             preparedStatement = con.prepareStatement("UPDATE tbl_reservas SET id_cliente=?, id_empleado=?, id_servicio=?, fecha_reserva=?, hora_reserva=?, estado=? WHERE id_reserva=?;");
             preparedStatement.setInt(1, this.idCliente);
             preparedStatement.setInt(2, this.idEmpleado);
@@ -261,8 +270,11 @@ public class ReservasModel {
     }
 
     public int deleteReservas(){
-        Connection con = ConexionDB.connection();
+        Connection con = null;
         try {
+            con = ConexionDB.connection();
+
+
             PreparedStatement statement = con.prepareStatement("DELETE FROM tbl_reservas WHERE id_reserva =?;");
             statement.setInt(1, idReserva);
             return statement.executeUpdate();

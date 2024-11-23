@@ -17,14 +17,14 @@
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tbReservas" layoutX="41.0" layoutY="50.0" prefHeight="243.0" prefWidth="686.0">
+      <TableView fx:id="tbReservas" layoutX="25.0" layoutY="53.0" prefHeight="243.0" prefWidth="686.0">
         <columns>
-          <TableColumn fx:id="colidReserva" prefWidth="75.0" text="ID Reserva" />
-          <TableColumn fx:id="colidCliente" prefWidth="75.0" text="ID Cliente" />
-            <TableColumn fx:id="colidEmpleado" prefWidth="97.0" text="ID Empleado" />
-            <TableColumn fx:id="colidServicio" prefWidth="84.0" text="ID Servicio" />
-            <TableColumn fx:id="colFechaReserva" prefWidth="121.0" text="Fecha Reserva" />
-            <TableColumn fx:id="colHora" prefWidth="113.0" text="Hora Reserva" />
+          <TableColumn fx:id="clidReserva" prefWidth="75.0" text="ID Reserva" />
+          <TableColumn fx:id="clidCliente" prefWidth="75.0" text="ID Cliente" />
+            <TableColumn fx:id="clidEmpleado" prefWidth="97.0" text="ID Empleado" />
+            <TableColumn fx:id="clidServicio" prefWidth="84.0" text="ID Servicio" />
+            <TableColumn fx:id="clFechaReserva" prefWidth="121.0" text="Fecha Reserva" />
+            <TableColumn fx:id="clHoraReserva" prefWidth="113.0" text="Hora Reserva" />
             <TableColumn fx:id="clEstadoReserva" prefWidth="120.0" text="Estado Reserva" />
         </columns>
       </TableView>
