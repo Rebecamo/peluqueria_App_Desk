@@ -5,6 +5,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class ReservasModel {
 
@@ -12,14 +14,14 @@ public class ReservasModel {
     private int idCliente;
     private int idEmpleado;
     private int idServicio;
-    private String fechaReserva;
+    private LocalDate fechaReserva;
     private String horaReserva;
     private String estadoReserva;
 
     public ReservasModel() {
     }
 
-    public ReservasModel(int idReserva, int idCliente, int idEmpleado, int idServicio, String fechaReserva, String horaReserva, String estadoReserva) {
+    public ReservasModel(int idReserva, int idCliente, int idEmpleado, int idServicio, LocalDate fechaReserva, String horaReserva, String estadoReserva) {
         this.idReserva = idReserva;
         this.idCliente = idCliente;
         this.idEmpleado = idEmpleado;
@@ -61,11 +63,11 @@ public class ReservasModel {
         this.idServicio = idServicio;
     }
 
-    public String getFechaReserva() {
+    public LocalDate getFechaReserva() {
         return fechaReserva;
     }
 
-    public void setFechaReserva(String fechaReserva) {
+    public void setFechaReserva(LocalDate fechaReserva) {
         this.fechaReserva = fechaReserva;
     }
 
@@ -97,8 +99,12 @@ public class ReservasModel {
                 reservasModel.setIdCliente(resultSet.getInt("id_cliente"));
                 reservasModel.setIdEmpleado(resultSet.getInt("id_empleado"));
                 reservasModel.setIdServicio(resultSet.getInt("id_servicio"));
-                reservasModel.setFechaReserva(resultSet.getString("fecha_reserva"));
+                reservasModel.setFechaReserva(resultSet.getDate("fecha_reserva").toLocalDate());
+                //convertir Time a String(HH:mm)
                 Time horaReserva = resultSet.getTime("hora_reserva");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                reservasModel.setHoraReserva(horaReserva.toLocalTime().format(formatter));
+
                 reservasModel.setEstadoReserva(resultSet.getString("estado"));
                 dataReservas.add(reservasModel);
             }
@@ -116,7 +122,8 @@ public class ReservasModel {
             preparedStatement.setInt(1,this.idCliente );
             preparedStatement.setInt(2,this.idEmpleado);
             preparedStatement.setInt(3,this.idServicio);
-            preparedStatement.setString(4, this.fechaReserva);
+
+            preparedStatement.setDate(4,java.sql.Date.valueOf(this.fechaReserva));
             preparedStatement.setTime(5, java.sql.Time.valueOf(this.horaReserva));
             preparedStatement.setString(6, this.estadoReserva);
             int retorno = preparedStatement.executeUpdate();
@@ -134,14 +141,43 @@ public class ReservasModel {
             preparedStatement.setInt(1, this.idCliente);
             preparedStatement.setInt(2, this.idEmpleado);
             preparedStatement.setInt(3, this.idServicio);
-            preparedStatement.setString(4, this.fechaReserva);
-            preparedStatement.setTime(5, java.sql.Time.valueOf(this.horaReserva));
+            preparedStatement.setDate(4, java.sql.Date.valueOf(this.fechaReserva));
+
+            System.out.println("hora antes de la conversion: "+this.horaReserva);
+            if(this.horaReserva !=null){
+                if(!this.horaReserva.contains(":")){
+                    throw new IllegalArgumentException("Formato de hora inválida. La hora debe contener al menos una ':'");
+
+                }if(this.horaReserva.length() ==5){
+                    this.horaReserva = this.horaReserva + ":00"; //añadir segundos
+                }
+            }else{
+                throw new IllegalArgumentException("La hora no puede ser nula");
+            }
+
+            System.out.println("hora antes de la correccion: "+this.horaReserva);
+
+            try{
+                preparedStatement.setTime(5, java.sql.Time.valueOf(this.horaReserva));
+
+            }catch (IllegalArgumentException e){
+                throw new RuntimeException("Error al convertir la hora. Formato de hora invalido: "+this.horaReserva, e);
+
+            }
+            //preparedStatement.setTime(5, java.sql.Time.valueOf(this.horaReserva));
             preparedStatement.setString(6, this.estadoReserva);
             preparedStatement.setInt(7, this.idReserva);
             int retorno = preparedStatement.executeUpdate();
+            if(retorno ==0){
+                throw new RuntimeException("No se pudo actualizar la reserva. Verifica que el id de la reserva sea correcto.");
+            }
             return retorno;
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new RuntimeException("Error al actualizar la reserva");
+        }catch (IllegalArgumentException e){
+            throw new RuntimeException("Error en los parametros de la reserva"+ e.getMessage(), e);
+
         }
     }
 
@@ -155,9 +191,6 @@ public class ReservasModel {
             throw new RuntimeException(e);
         }
     }
-
-
-
 
 
 }
