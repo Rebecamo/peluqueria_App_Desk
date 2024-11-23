@@ -60,7 +60,7 @@ public class GestionReservasController {
     private ReservasModel reservas;
 
     public void initialize(){
-      
+
 
         this.clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
         this.clidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));

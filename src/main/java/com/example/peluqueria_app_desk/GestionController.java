@@ -33,12 +33,13 @@ public class GestionController {
     @FXML
     private void gestionarHorarios() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_horarios.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view_horarios.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) btnGestionarHorarios.getScene().getWindow();
-            stage.setScene(new Scene(fxmlLoader.load()));
+            stage.setScene(scene);
             stage.setTitle("Gestión de Horarios");
 
-            // Pasar el ID del empleado al controlador de la vista de horarios
+            // Configurar datos en el controlador
             HorariosController horariosController = fxmlLoader.getController();
             horariosController.setEmpleadoId(empleadoId);
 

@@ -32,24 +32,27 @@ public class LoginController {
     private final EmpleadoModel empleadoModel = new EmpleadoModel(); // Instancia del modelo
 
     public void initialize() {
-        txtCorreo.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                txtPass.requestFocus(); // Cambia el foco al campo de contraseña
-            }
-        });
-        txtPass.setOnKeyPressed(event -> {
-            if (event.getCode() == KeyCode.ENTER) {
-                btnIngresar.fire(); // Ejecuta el botón de login
-            }
-        });
+
+
         txtCorreo.requestFocus();
 
         btnIngresar.setDisable(true);
         ChangeListener<String> listener = (observable, oldValue, newValue) -> {
+
+            txtCorreo.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    txtPass.requestFocus(); // Cambia el foco al campo de contraseña
+                }
+            });
             // Habilitar el botón solo si ambos campos tienen texto
             boolean habilitar = !txtCorreo.getText().trim().isEmpty() &&
                     !txtPass.getText().trim().isEmpty();
             btnIngresar.setDisable(!habilitar);
+            txtPass.setOnKeyPressed(event -> {
+                if (event.getCode() == KeyCode.ENTER) {
+                    btnIngresar.fire(); // Ejecuta el botón de login
+                }
+            });
         };
         txtCorreo.textProperty().addListener(listener);
         txtPass.textProperty().addListener(listener);
@@ -78,14 +81,14 @@ public class LoginController {
 
                 try {
                     // Redirigir al formulario de gestión
-                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/GestionView.fxml"));
+                    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_horarios.fxml"));
                     Stage stage = (Stage) txtCorreo.getScene().getWindow();
                     stage.setScene(new Scene(fxmlLoader.load()));
                     stage.setTitle("Gestión de Horarios");
 
                     // Pasar el ID del empleado al controlador de gestión
-                    GestionController gestionController = fxmlLoader.getController();
-                    gestionController.setEmpleadoId(idEmpleado);
+                   GestionController gestionController = fxmlLoader.getController();
+                   gestionController.setEmpleadoId(idEmpleado);
 
                 } catch (Exception e) {
                     e.printStackTrace();

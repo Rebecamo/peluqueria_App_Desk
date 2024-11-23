@@ -1,5 +1,15 @@
 package com.example.peluqueria_app_desk.Modelos;
 
+import com.example.peluqueria_app_desk.Conexion.ConexionDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.sql.*;
+
 public class HorariosModel {
     private int idHorario;
     private int idEmpleado; // Nuevo campo
@@ -56,4 +66,6 @@ public class HorariosModel {
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
+
+
 }
