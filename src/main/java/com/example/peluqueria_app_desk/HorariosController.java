@@ -19,7 +19,7 @@ public class HorariosController {
     private TableColumn<HorariosModel, Integer> clidHorario;
 
     @FXML
-    private TableColumn<HorariosModel, Integer> idEmpleadoColumn;
+    private TableColumn<HorariosModel, Integer> clidEmpleado;
 
     @FXML
     private TableColumn<HorariosModel, String> clDiaSemana;
@@ -47,7 +47,7 @@ public class HorariosController {
     public void initialize() {
         // Configurar las columnas de la tabla
         clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
-
+        clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
         clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
         clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
