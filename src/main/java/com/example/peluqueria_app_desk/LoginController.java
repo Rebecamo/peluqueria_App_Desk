@@ -1,9 +1,8 @@
 package com.example.peluqueria_app_desk;
 
 
-import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 import com.example.peluqueria_app_desk.Modelos.EmpleadoModel;
-import javafx.application.Application;
+
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
