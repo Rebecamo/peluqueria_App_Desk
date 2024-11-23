@@ -1,4 +1,5 @@
 package com.example.peluqueria_app_desk;
+import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 import com.example.peluqueria_app_desk.Modelos.HorariosModel;
 
 import javafx.collections.FXCollections;
@@ -41,21 +42,12 @@ public class HorariosController {
     private Label lblNombreEmpleado;
 
     private ObservableList<HorariosModel> horariosList;
-
-    private int empleadoId; // ID del empleado que inició sesión
-
-    public void setEmpleadoId(int empleadoId) {
-        this.empleadoId = empleadoId;
-        cargarHorarios();
-    }
-
-
-
+    private int empleadoId;
     @FXML
     public void initialize() {
         // Configurar las columnas de la tabla
         clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
-        idEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+
         clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
         clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
@@ -70,11 +62,44 @@ public class HorariosController {
         listViewDia.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    public void setEmpleadoId(int empleadoId) {
+        this.empleadoId = empleadoId;
+        cargarHorarios();
+    }
+    @FXML
+    private void agregarHorario() {
+        ObservableList<String> diasSeleccionados = listViewDia.getSelectionModel().getSelectedItems();
+        String horaInicio = txtHoraInicio.getText();
+        String horaFin = txtHoraFinal.getText();
+
+        if (diasSeleccionados.isEmpty() || horaInicio.isEmpty() || horaFin.isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos son obligatorios.");
+            return;
+        }
+
+        try (Connection connection = ConexionDB.connection()) {
+            for (String dia : diasSeleccionados) {
+                PreparedStatement statement = connection.prepareStatement(
+                        "INSERT INTO tbl_horarios (id_empleado, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?)"
+                );
+                statement.setInt(1, empleadoId);
+                statement.setString(2, dia);
+                statement.setString(3, horaInicio);
+                statement.setString(4, horaFin);
+                statement.executeUpdate();
+            }
+            cargarHorarios();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void cargarHorarios() {
         horariosList.clear(); // Limpiar la lista antes de cargar datos
 
         String query = "SELECT * FROM tbl_horarios WHERE id_empleado = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RAGlamStudio1", "postgres", "password");
+        try (Connection connection = ConexionDB.connection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, empleadoId); // Filtrar por empleado
@@ -93,37 +118,8 @@ public class HorariosController {
         }
 
         tblHorarios.setItems(horariosList);
-
     }
 
-    @FXML
-    private void agregarHorario() {
-        ObservableList<String> diasSeleccionados = listViewDia.getSelectionModel().getSelectedItems();
-        String horaInicio = txtHoraInicio.getText();
-        String horaFin = txtHoraFinal.getText();
-
-        if (diasSeleccionados.isEmpty() || horaInicio.isEmpty() || horaFin.isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos son obligatorios.");
-            return;
-        }
-
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RAGlamStudio1", "postgres", "password")) {
-            for (String dia : diasSeleccionados) {
-                PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO tbl_horarios (id_empleado, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?)"
-                );
-                statement.setInt(1, empleadoId);
-                statement.setString(2, dia);
-                statement.setString(3, horaInicio);
-                statement.setString(4, horaFin);
-                statement.executeUpdate();
-            }
-            cargarHorarios();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @FXML
     private void eliminarHorario() {
@@ -185,4 +181,11 @@ public class HorariosController {
         alert.setContentText(mensaje);
         alert.showAndWait();
     }
-}
+
+    // ID del empleado que inició sesión
+
+
+
+
+
+    }

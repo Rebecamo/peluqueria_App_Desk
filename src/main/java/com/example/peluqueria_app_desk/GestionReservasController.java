@@ -43,7 +43,7 @@ public class GestionReservasController {
     private TableColumn<ReservasModel, Integer> clidReserva;
 
     @FXML
-    private TableColumn<ReservasModel, Integer> colidServicio;
+    private TableColumn<ReservasModel, Integer> clidServicio;
 
     @FXML
     private DatePicker dateFechaReserva;
@@ -60,12 +60,12 @@ public class GestionReservasController {
     private ReservasModel reservas;
 
     public void initialize(){
-      
+
 
         this.clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
         this.clidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
         this.clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
-        this.colidServicio.setCellValueFactory(new PropertyValueFactory<>("idServicio"));
+      this.clidServicio.setCellValueFactory(new PropertyValueFactory<>("idServicio"));
         this.clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
         this.clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
         this.clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));

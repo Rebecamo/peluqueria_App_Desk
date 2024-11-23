@@ -15,7 +15,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
-import java.sql.Connection;
 
 
 public class LoginController {
@@ -33,9 +32,6 @@ public class LoginController {
     private final EmpleadoModel empleadoModel = new EmpleadoModel(); // Instancia del modelo
 
     public void initialize() {
-
-        System.out.println("intentando conectar a la base de datos");
-        Connection connection = ConexionDB.connection(); //MUESTRA EL MENSAJE SI SE CONECTO A LA BASE DE DATOS
         txtCorreo.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 txtPass.requestFocus(); // Cambia el foco al campo de contraseña
@@ -73,7 +69,6 @@ public class LoginController {
                 return;
             }
 
-
             // Validar las credenciales usando el modelo
             int idEmpleado = empleadoModel.validarCredenciales(correo, contraseña);
 
@@ -84,7 +79,6 @@ public class LoginController {
                 try {
                     // Redirigir al formulario de gestión
                     FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_Gestion.fxml"));
-                   
                     Stage stage = (Stage) txtCorreo.getScene().getWindow();
                     stage.setScene(new Scene(fxmlLoader.load()));
                     stage.setTitle("Gestión de Horarios");

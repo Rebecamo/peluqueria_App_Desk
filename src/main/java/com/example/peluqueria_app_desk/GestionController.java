@@ -34,11 +34,12 @@ public class GestionController {
     private void gestionarHorarios() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_horarios.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) btnGestionarHorarios.getScene().getWindow();
-            stage.setScene(new Scene(fxmlLoader.load()));
+            stage.setScene(scene);
             stage.setTitle("Gestión de Horarios");
 
-            // Pasar el ID del empleado al controlador de la vista de horarios
+            // Configurar datos en el controlador
             HorariosController horariosController = fxmlLoader.getController();
             horariosController.setEmpleadoId(empleadoId);
 
@@ -47,9 +48,7 @@ public class GestionController {
         }
     }
 
-    /**
-     * Método que maneja la acción de ir a la vista de gestión de servicios.
-     */
+
     @FXML
     private void gestionarReservas() {
         try {
@@ -59,8 +58,8 @@ public class GestionController {
             stage.setTitle("Gestión de reservas");
 
             // Pasar el ID del empleado al controlador de la vista de servicios
-           // GestionReservasController serviciosController = fxmlLoader.getController();
-            //serviciosController.setEmpleadoId(empleadoId);
+         //   GestionReservasController serviciosController = fxmlLoader.getController();
+          //  serviciosController.setEmpleadoId(empleadoId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +68,7 @@ public class GestionController {
     private void HistorialReservas() {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_historial_reservas.fxml"));
-            Stage stage = (Stage) btnGestionarHorarios.getScene().getWindow();
+            Stage stage = (Stage) btnHistorialReservas.getScene().getWindow();
             stage.setScene(new Scene(fxmlLoader.load()));
             stage.setTitle("Historial reservas");
 
