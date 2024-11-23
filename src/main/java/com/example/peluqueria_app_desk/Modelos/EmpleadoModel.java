@@ -16,6 +16,9 @@ public class EmpleadoModel {
     private String correo;
     private String contraseña;
 
+    public EmpleadoModel() {
+    }
+
     public EmpleadoModel(int idEmpleado, String nombres, String apellidos, int edad, String direccion, String telefono, String correo, String contraseña) {
         this.idEmpleado = idEmpleado;
         this.nombres = nombres;
@@ -92,7 +95,7 @@ public class EmpleadoModel {
     }
 
     public int validarCredenciales(String correo, String contraseña) {
-        try (Connection connection = ConexionDB.getConnection()) {
+        try (Connection connection = ConexionDB.connection()) {
             String query = "SELECT id_empleado FROM tblEmpleados WHERE correo = ? AND contraseña = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, correo); // Sustituir el primer "?" por el correo

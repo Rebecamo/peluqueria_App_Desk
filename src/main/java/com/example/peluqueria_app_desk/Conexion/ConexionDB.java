@@ -5,12 +5,19 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexionDB {
-    private static final String URL = "jdbc:postgresql://localhost:5432/RAGlamStudio1";
-        private static final String USER = "postgres"; // Cambiar por el usuario de tu DB
-        private static final String PASSWORD = "Evf22006"; // Cambiar por la contraseña de tu DB
+    private static final String url = "jdbc:postgresql://localhost:5432/db_R&AGlamStudio";
 
-        public static Connection getConnection() throws SQLException {
-            return DriverManager.getConnection(URL, USER, PASSWORD);
+    private static final String USER ="postgres";
+    private static final String PASS = "Evf22006";
+
+    public static Connection connection(){
+        try {
+            Connection conectar = DriverManager.getConnection(url, USER, PASS);
+            System.out.println("Conectado a la base");
+
+            return conectar;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
-
+}

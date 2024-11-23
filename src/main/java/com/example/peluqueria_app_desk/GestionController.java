@@ -33,7 +33,7 @@ public class GestionController {
     @FXML
     private void gestionarHorarios() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/HorariosView.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_horarios.fxml"));
             Stage stage = (Stage) btnGestionarHorarios.getScene().getWindow();
             stage.setScene(new Scene(fxmlLoader.load()));
             stage.setTitle("Gestión de Horarios");
@@ -53,14 +53,14 @@ public class GestionController {
     @FXML
     private void gestionarReservas() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/ServiciosView.fxml"));
-            Stage stage = (Stage) gestionarServiciosButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_gestion_reservas.fxml"));
+            Stage stage = (Stage) btnGestionarReservas.getScene().getWindow();
             stage.setScene(new Scene(fxmlLoader.load()));
-            stage.setTitle("Gestión de Servicios");
+            stage.setTitle("Gestión de reservas");
 
             // Pasar el ID del empleado al controlador de la vista de servicios
-            ReservasController serviciosController = fxmlLoader.getController();
-            serviciosController.setEmpleadoId(empleadoId);
+           // GestionReservasController serviciosController = fxmlLoader.getController();
+            //serviciosController.setEmpleadoId(empleadoId);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,14 +68,14 @@ public class GestionController {
     }
     private void HistorialReservas() {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/ServiciosView.fxml"));
-            Stage stage = (Stage) gestionarServiciosButton.getScene().getWindow();
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/peluqueria_app_desk/view_historial_reservas.fxml"));
+            Stage stage = (Stage) btnGestionarHorarios.getScene().getWindow();
             stage.setScene(new Scene(fxmlLoader.load()));
             stage.setTitle("Historial reservas");
 
             // Pasar el ID del empleado al controlador de la vista de servicios
-            HistorialReservasController serviciosController = fxmlLoader.getController();
-            serviciosController.setEmpleadoId(empleadoId);
+            //HistorialReservasController serviciosController = fxmlLoader.getController();
+          //  serviciosController.setEmpleadoId(empleadoId);
 
         } catch (Exception e) {
             e.printStackTrace();
