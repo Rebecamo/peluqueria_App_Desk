@@ -47,7 +47,7 @@ public class HorariosController {
     public void initialize() {
         // Configurar las columnas de la tabla
         clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
-        idEmpleadoColumn.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+
         clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
         clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));

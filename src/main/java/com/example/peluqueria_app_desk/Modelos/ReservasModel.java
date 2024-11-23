@@ -4,6 +4,7 @@ import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javax.swing.plaf.nimbus.State;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -116,6 +117,84 @@ public class ReservasModel {
             throw new RuntimeException(e);
         }
     }
+
+    public ObservableList<ReservasModel>getReservasPorFecha(){
+        Connection connection = ConexionDB.connection();
+        ObservableList<ReservasModel>dataReservas=FXCollections.observableArrayList();
+        try {
+            Statement statement = connection.createStatement();
+            String consulta = "SELECT fecha_reserva, COUNT(*) AS total_reservas FROM tbl_reservas GROUP BY fecha_reserva ORDER BY fecha_reserva;";
+            ResultSet resultSet = statement.executeQuery(consulta);
+            while(resultSet.next()){
+                String fecha = resultSet.getString("fecha_reserva");
+                int totalRservas = resultSet.getInt("total_reservas");
+
+                ReservasModel reserva = new ReservasModel();
+                reserva.setFechaReserva(LocalDate.parse(fecha));
+                dataReservas.add(reserva);
+
+            }
+            return dataReservas;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener reservas por fecha");
+        }
+    }
+
+    public ObservableList<String>getClientesFrecuentes(){
+        ObservableList<String>clientes = FXCollections.observableArrayList();
+        Connection connection = ConexionDB.connection();
+        try {
+            Statement statement = connection.createStatement();
+            String consulta = "SELECT c.id_cliente, c.nombre, COUNT(r.id_reserva) AS total_reservas" +
+                    "FROM tbl_reservas r" +
+                    "JOIN tbl_clientes c ON r.id_cliente = c.id_cliente" +
+                    "GROUP BY c.id_cliente, c.nombre" +
+                    "ORDER BY total_reservas DESC" +
+                    "LIMIT 10;";
+            ResultSet resultSet = statement.executeQuery(consulta);
+            while (resultSet.next()){
+                String cliente = resultSet.getString("nombre");
+                clientes.add(cliente);
+
+            }
+            return clientes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener clientes frecuentes");
+        }
+    }
+
+    public ObservableList<String >getHorariosDemandados(){
+        ObservableList<String >horariosDemandados=FXCollections.observableArrayList();
+        Connection connection = ConexionDB.connection();
+        try {
+            Statement statement = connection.createStatement();
+            String consulta = "SELECT h.dia_semana, h.hora_inicio, h.hora_fin, COUNT(r.id_reserva) AS total_reservas" +
+                    "FROM tbl_reservas r+ " +
+                    "JOIN tbl_horarios h ON r.id_empleado = h.id_empleado" +
+                    "WHERE r.hora_reserva BETWEEN h.hora_inicio AND h.hora_fin" +
+                    "GROUP BY h.dia_semana, h.hora_inicio, h.hora_fin" +
+                    "ORDER BY total_reservas DESC;";
+            ResultSet resultSet = statement.executeQuery(consulta);
+            while (resultSet.next()){
+                String dia = resultSet.getString("dia_semana");
+                String horarioInicio = resultSet.getTime("hora_inicio").toString();
+                String horaFin = resultSet.getTime("hora_fin").toString();
+                int totalReservas = resultSet.getInt("total_reservas");
+
+                String horario = String.format("%s: %s - %s | Reservas: %d", dia, horarioInicio, horaFin, totalReservas);
+                horariosDemandados.add(horario);
+
+            }
+            return horariosDemandados;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener horarios demandados");
+        }
+
+    }
+
 
     public int saveReservas(){
         Connection con = null;

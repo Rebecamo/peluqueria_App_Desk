@@ -96,7 +96,7 @@ public class EmpleadoModel {
 
     public int validarCredenciales(String correo, String contraseña) {
         try (Connection connection = ConexionDB.connection()) {
-            String query = "SELECT id_empleados FROM tbl_Empleados WHERE correo = ? AND contraseña = ?";
+            String query = "SELECT id_empleado FROM tbl_empleados WHERE correo = ? AND contraseña = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, correo); // Sustituir el primer "?" por el correo
             statement.setString(2, contraseña); // Sustituir el segundo "?" por la contraseña
