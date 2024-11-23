@@ -52,8 +52,8 @@
          </font>
       </Label>
       <ComboBox fx:id="cmbEstadoReserva" layoutX="164.0" layoutY="511.0" prefHeight="25.0" prefWidth="164.0" />
-      <Button fx:id="btnAceptar" layoutX="473.0" layoutY="322.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar" />
-      <Button fx:id="btnModificar" layoutX="473.0" layoutY="402.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar" />
-      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="502.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar" />
+      <Button fx:id="btnAceptar" layoutX="473.0" layoutY="322.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar Reserva" />
+      <Button fx:id="btnModificar" layoutX="473.0" layoutY="402.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar Reserva" />
+      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="502.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar Reserva" />
    </children>
 </AnchorPane>
