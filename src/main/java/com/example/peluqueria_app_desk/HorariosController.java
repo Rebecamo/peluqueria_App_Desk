@@ -113,6 +113,20 @@ public class HorariosController {
                 mostrarAlerta("Advertencia", "Todos los campos son obligatorios", Alert.AlertType.WARNING);
                 return;
             }
+            LocalTime horaInicio;
+            LocalTime horaFin;
+            try {
+                horaInicio = LocalTime.parse(txtHoraInicio.getText()); // Parsear horaInicio
+                horaFin = LocalTime.parse(txtHoraFin.getText());       // Parsear horaFin
+            } catch (DateTimeParseException e) {
+                mostrarAlerta("Error", "Las horas deben estar en el formato HH:mm (por ejemplo, 09:00 )", Alert.AlertType.ERROR);
+                return;
+            }
+            if (horaFin.isBefore(horaInicio.plusHours(6))) {
+                mostrarAlerta("Error", "La jornada laboral debe ser de al menos 6 horas", Alert.AlertType.ERROR);
+                return;
+            }
+
 
             // Crear una instancia del modelo
             HorariosModel nuevoHorario = new HorariosModel();
