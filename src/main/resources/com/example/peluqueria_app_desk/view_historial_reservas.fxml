@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="500.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HistorialReservasController">
+<AnchorPane prefHeight="517.0" prefWidth="633.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HistorialReservasController">
    <children>
-      <TableView fx:id="tblReservas" layoutX="14.0" layoutY="38.0" prefHeight="432.0" prefWidth="644.0">
+      <TableView fx:id="tblReservas" layoutX="7.0" layoutY="102.0" prefHeight="369.0" prefWidth="624.0">
         <columns>
           <TableColumn fx:id="clidReserva" prefWidth="75.0" text="Reserva" />
           <TableColumn fx:id="clCliente" prefWidth="75.0" text="Cliente" />
@@ -20,5 +23,29 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <MenuBar fx:id="menuBar" layoutX="-1.0" layoutY="2.0" prefHeight="25.0" prefWidth="633.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Inicio">
+            <items>
+              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Inicio de sesión" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gestionar horarios">
+            <items>
+              <MenuItem fx:id="menuItemGestionHorario" mnemonicParsing="false" text="Gestionar" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gestionar reservas">
+            <items>
+              <MenuItem fx:id="menuItemGestionReservas" mnemonicParsing="false" text="Gestionar" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Gestión">
+              <items>
+                <MenuItem fx:id="menuItemAtras" mnemonicParsing="false" text="Ir a gestión" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

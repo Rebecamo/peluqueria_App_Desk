@@ -4,10 +4,17 @@ import com.example.peluqueria_app_desk.Modelos.HorariosModel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.sql.*;
 
 public class HorariosController {
@@ -30,19 +37,40 @@ public class HorariosController {
     @FXML
     private TableColumn<HorariosModel, String> clHoraSalida;
 
-    @FXML
-    private ListView<String> listViewDia;
 
     @FXML
-    private TextField txtHoraInicio;
+    private ComboBox<String> cmbDiaSemana;
 
     @FXML
-    private TextField txtHoraFinal;
+    private ComboBox<String> cmbHoraFin;
+
     @FXML
-    private Label lblNombreEmpleado;
+    private ComboBox<String> cmbHoraInicio;
+
+    @FXML
+    private TextField txtIdEmpleado;
+
+    @FXML
+    private TextField txtIdHorario;
 
     private ObservableList<HorariosModel> horariosList;
     private int empleadoId;
+
+
+    @FXML
+    private MenuBar menuBar;
+
+    @FXML
+    private MenuItem menuItemAtras;
+
+
+    @FXML
+    private MenuItem menuItemGestionReservas;
+    @FXML
+    private MenuItem menuItemHistorial;
+    @FXML
+    private MenuItem menuItemInicio;
+    private int idEmpleadoAutenticado;
     @FXML
     public void initialize() {
         // Configurar las columnas de la tabla
@@ -51,50 +79,155 @@ public class HorariosController {
         clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
         clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
-
-        horariosList = FXCollections.observableArrayList();
-        tblHorarios.setItems(horariosList);
-
-        // Poblar el ListView con los días de la semana
-        listViewDia.setItems(FXCollections.observableArrayList(
-                "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
-        ));
-        listViewDia.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    }
-
-    public void setEmpleadoId(int empleadoId) {
-        this.empleadoId = empleadoId;
-        cargarHorarios();
-    }
-    @FXML
-    private void agregarHorario() {
-        ObservableList<String> diasSeleccionados = listViewDia.getSelectionModel().getSelectedItems();
-        String horaInicio = txtHoraInicio.getText();
-        String horaFin = txtHoraFinal.getText();
-
-        if (diasSeleccionados.isEmpty() || horaInicio.isEmpty() || horaFin.isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos son obligatorios.");
-            return;
-        }
-
-        try (Connection connection = ConexionDB.connection()) {
-            for (String dia : diasSeleccionados) {
-                PreparedStatement statement = connection.prepareStatement(
-                        "INSERT INTO tbl_horarios (id_empleado, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?)"
-                );
-                statement.setInt(1, empleadoId);
-                statement.setString(2, dia);
-                statement.setString(3, horaInicio);
-                statement.setString(4, horaFin);
-                statement.executeUpdate();
+        this.cargarTablaHorarios();
+        this.tblHorarios.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                HorariosModel horarioTemporal = tblHorarios.getSelectionModel().getSelectedItem();
+                if (horarioTemporal != null) {
+                    txtIdHorario.setText(String.valueOf(horarioTemporal.getIdHorario()));
+                    txtIdEmpleado.setText(String.valueOf(horarioTemporal.getIdEmpleado()));
+                    cmbDiaSemana.setValue(horarioTemporal.getDiaSemana());
+                    cmbHoraInicio.setValue(horarioTemporal.getHoraInicio());
+                    cmbHoraFin.setValue(horarioTemporal.getHoraFin());
+                }
             }
-            cargarHorarios();
+        });
 
-        } catch (SQLException e) {
+
+        cmbDiaSemana.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
+
+        // Rellenar valores para los ComboBox de horas (inicio y fin)
+        cmbHoraInicio.getItems().addAll(
+                "07:00 am","08:00 am", "09:00 am", "10:00 am", "11:00 am", "12:00 pm"
+
+        );
+        cmbHoraFin.getItems().addAll(
+
+                "12:00 pm","01:00 pm","02:00 pm", "03:00 pm", "04:00 pm", "05:00 pm"
+
+        );
+
+        menuItemAtras.setOnAction(event -> gestion());
+        menuItemGestionReservas.setOnAction(event -> gestionReservas());
+        menuItemHistorial.setOnAction(event -> historial());
+        menuItemInicio.setOnAction(event -> inicio());
+    }
+
+    private void vistas(String fxmlFile) {
+        try {
+            // Cargar la nueva vista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    private void inicio() {
+        vistas("view_login.fxml");
+    }
 
+
+
+    private void gestionReservas() {
+        vistas("view_gestion_reservas.fxml");
+    }
+
+    private void historial() {
+        vistas("view_historial_reservas.fxml");
+    }
+
+    private void gestion() {
+
+        vistas("view_Gestion.fxml"); // Redirige al login
+    }
+
+
+    @FXML
+    private void clickAgregarHorario() {
+        if (cmbDiaSemana.getSelectionModel().isEmpty() || cmbHoraInicio.getSelectionModel().isEmpty() || cmbHoraFin.getSelectionModel().isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos del horario deben estar seleccionados.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        String diaSemana = cmbDiaSemana.getValue();
+        String horaInicio = cmbHoraInicio.getValue();
+        String horaFin = cmbHoraFin.getValue();
+
+        if (horaInicio.compareTo(horaFin) >= 0) {
+            mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        HorariosModel nuevoHorario = new HorariosModel();
+
+        nuevoHorario.setDiaSemana(diaSemana);
+        nuevoHorario.setHoraInicio(horaInicio);
+        nuevoHorario.setHoraFin(horaFin);
+
+        int result = nuevoHorario.saveHorario();
+        if (result > 0) {
+            mostrarAlerta("Éxito", "Horario agregado correctamente.", Alert.AlertType.INFORMATION);
+            cargarTablaHorarios(); // Refresca la tabla
+            limpiarCamposHorario();
+        } else {
+            mostrarAlerta("Error", "No se pudo agregar el horario.", Alert.AlertType.ERROR);
+        }
+    }
+    public void cargarTablaHorarios() {
+        tblHorarios.getItems().clear();
+        HorariosModel horarios = new HorariosModel();
+        ObservableList<HorariosModel> dataHorarios = horarios.getHorarios(); // Solo los del empleado autenticado
+        tblHorarios.getItems().addAll(dataHorarios);
+    }
+    private void limpiarCamposHorario() {
+        cmbDiaSemana.getSelectionModel().clearSelection();
+        cmbHoraInicio.getSelectionModel().clearSelection();
+        cmbHoraFin.getSelectionModel().clearSelection();
+    }
+    @FXML
+    private void clickModificarHorario() {
+        HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
+
+        if (horarioSeleccionado == null) {
+            mostrarAlerta("Error", "Debes seleccionar un horario para modificar.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        if (cmbDiaSemana.getSelectionModel().isEmpty() || cmbHoraInicio.getSelectionModel().isEmpty() || cmbHoraFin.getSelectionModel().isEmpty()) {
+            mostrarAlerta("Error", "Todos los campos del horario deben estar seleccionados.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        String diaSemana = cmbDiaSemana.getValue();
+        String horaInicio = cmbHoraInicio.getValue();
+        String horaFin = cmbHoraFin.getValue();
+
+        if (horaInicio.compareTo(horaFin) >= 0) {
+            mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        horarioSeleccionado.setDiaSemana(diaSemana);
+        horarioSeleccionado.setHoraInicio(horaInicio);
+        horarioSeleccionado.setHoraFin(horaFin);
+
+        int result = horarioSeleccionado.editHorario();
+        if (result > 0) {
+            mostrarAlerta("Éxito", "Horario modificado correctamente.", Alert.AlertType.INFORMATION);
+            cargarTablaHorarios(); // Refresca la tabla
+            limpiarCamposHorario();
+        } else {
+            mostrarAlerta("Error", "No se pudo modificar el horario.", Alert.AlertType.ERROR);
+        }
+    }
     private void cargarHorarios() {
         horariosList.clear(); // Limpiar la lista antes de cargar datos
 
@@ -122,64 +255,30 @@ public class HorariosController {
 
 
     @FXML
-    private void eliminarHorario() {
+    private void clickEliminarHorario() {
         HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
 
         if (horarioSeleccionado == null) {
-            mostrarAlerta("Error", "Selecciona un horario para eliminar.");
+            mostrarAlerta("Error", "Debes seleccionar un horario para eliminar.", Alert.AlertType.ERROR);
             return;
         }
 
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RAGlamStudio1", "postgres", "password");
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM tbl_horarios WHERE id_horario = ?")) {
-
-            statement.setInt(1, horarioSeleccionado.getIdHorario());
-            statement.executeUpdate();
-
-            cargarHorarios();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+        int result = horarioSeleccionado.deleteHorario();
+        if (result > 0) {
+            mostrarAlerta("Éxito", "Horario eliminado correctamente.", Alert.AlertType.INFORMATION);
+            cargarTablaHorarios(); // Refresca la tabla
+        } else {
+            mostrarAlerta("Error", "No se pudo eliminar el horario.", Alert.AlertType.ERROR);
         }
     }
 
-    @FXML
-    private void modificarHorario() {
-        HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
 
-        if (horarioSeleccionado == null) {
-            mostrarAlerta("Error", "Selecciona un horario para modificar.");
-            return;
-        }
-
-        String horaInicio = txtHoraInicio.getText();
-        String horaFin = txtHoraFinal.getText();
-
-        if (horaInicio.isEmpty() || horaFin.isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos son obligatorios.");
-            return;
-        }
-
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/RAGlamStudio1", "postgres", "password");
-             PreparedStatement statement = connection.prepareStatement("UPDATE tbl_horarios SET hora_inicio = ?, hora_fin = ? WHERE id_horario = ?")) {
-
-            statement.setString(1, horaInicio);
-            statement.setString(2, horaFin);
-            statement.setInt(3, horarioSeleccionado.getIdHorario());
-            statement.executeUpdate();
-
-            cargarHorarios();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void mostrarAlerta(String titulo, String mensaje) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(titulo);
-        alert.setContentText(mensaje);
-        alert.showAndWait();
+    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 
     // ID del empleado que inició sesión

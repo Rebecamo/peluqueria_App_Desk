@@ -4,6 +4,9 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -12,12 +15,12 @@
 
 <AnchorPane prefHeight="629.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionReservasController">
    <children>
-      <Label layoutX="285.0" layoutY="14.0" text="Gestion de Reservas">
+      <Label layoutX="284.0" layoutY="58.0" text="Gestion de Reservas">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tbReservas" layoutX="25.0" layoutY="53.0" prefHeight="243.0" prefWidth="686.0">
+      <TableView fx:id="tbReservas" layoutX="34.0" layoutY="106.0" prefHeight="243.0" prefWidth="686.0">
         <columns>
           <TableColumn fx:id="clidReserva" prefWidth="75.0" text="ID Reserva" />
           <TableColumn fx:id="clidCliente" prefWidth="75.0" text="ID Cliente" />
@@ -28,32 +31,56 @@
             <TableColumn fx:id="clEstadoReserva" prefWidth="120.0" text="Estado Reserva" />
         </columns>
       </TableView>
-      <Label layoutX="41.0" layoutY="333.0" prefHeight="31.0" prefWidth="83.0" text="Id Reserva:">
+      <Label layoutX="50.0" layoutY="369.0" prefHeight="31.0" prefWidth="83.0" text="Id Reserva:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtidReserva" editable="false" layoutX="124.0" layoutY="339.0" prefHeight="25.0" prefWidth="164.0" />
-      <Label layoutX="38.0" layoutY="396.0" text="Fecha Reserva:">
+      <TextField fx:id="txtidReserva" editable="false" layoutX="174.0" layoutY="372.0" prefHeight="25.0" prefWidth="104.0" />
+      <Label layoutX="39.0" layoutY="424.0" text="Fecha Reserva:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <DatePicker fx:id="dateFechaReserva" layoutX="159.0" layoutY="396.0" />
-      <Label layoutX="41.0" layoutY="453.0" text="Hora Reserva:">
+      <DatePicker fx:id="dateFechaReserva" layoutX="162.0" layoutY="424.0" prefHeight="25.0" prefWidth="200.0" />
+      <Label layoutX="43.0" layoutY="466.0" text="Hora Reserva:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField fx:id="txtHoraReserva" layoutX="142.0" layoutY="453.0" promptText="HH:mm" />
-      <Label layoutX="41.0" layoutY="511.0" text="Estado Reserva:">
+      <TextField fx:id="txtHoraReserva" layoutX="156.0" layoutY="472.0" prefHeight="25.0" prefWidth="212.0" promptText="HH:mm" />
+      <Label layoutX="37.0" layoutY="524.0" text="Estado Reserva:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <ComboBox fx:id="cmbEstadoReserva" layoutX="164.0" layoutY="511.0" prefHeight="25.0" prefWidth="164.0" />
-      <Button fx:id="btnAceptar" layoutX="473.0" layoutY="322.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar Reserva" />
-      <Button fx:id="btnModificar" layoutX="473.0" layoutY="402.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar Reserva" />
-      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="502.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar Reserva" />
+      <ComboBox fx:id="cmbEstadoReserva" layoutX="162.0" layoutY="524.0" prefHeight="25.0" prefWidth="200.0" />
+      <Button fx:id="btnAceptar" layoutX="476.0" layoutY="369.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar Reserva" />
+      <Button fx:id="btnModificar" layoutX="473.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar Reserva" />
+      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="536.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar Reserva" />
+      <MenuBar fx:id="menuBar" layoutX="-4.0" layoutY="2.0" prefHeight="25.0" prefWidth="762.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Inicio">
+            <items>
+              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Inicio de sesión" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Gestionar horarios">
+            <items>
+              <MenuItem fx:id="menuItemHorarios" mnemonicParsing="false" text="Gestionar" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Historial reservas">
+            <items>
+              <MenuItem fx:id="menuItemHistorial" mnemonicParsing="false" text="Visualizar" />
+            </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Gestión">
+              <items>
+                <MenuItem fx:id="menuItemGestion" mnemonicParsing="false" text="Ir a gestion" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>

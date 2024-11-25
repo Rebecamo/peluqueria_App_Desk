@@ -1,15 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="284.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionController">
+<AnchorPane fx:id="anchorMenu" prefHeight="253.0" prefWidth="510.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionController">
    <children>
-      <Label fx:id="lblEmpleado" layoutX="54.0" layoutY="45.0" text="FORMULARIO DE GESTION" />
-      <Button fx:id="btnGestionarHorarios" focusTraversable="false" layoutX="29.0" layoutY="90.0" mnemonicParsing="false" onAction="#gestionarHorarios" prefHeight="48.0" prefWidth="231.0" text="Gestionar horarios" />
-      <Button fx:id="btnGestionarReservas" focusTraversable="false" layoutX="29.0" layoutY="166.0" mnemonicParsing="false" onAction="#gestionarReservas" prefHeight="48.0" prefWidth="231.0" text="Gestionar reservas" />
-      <Button fx:id="btnHistorialReservas" focusTraversable="false" layoutX="27.0" layoutY="241.0" mnemonicParsing="false" onAction="#HistorialReservas" prefHeight="48.0" prefWidth="231.0" text="Historial reservas" />
-      <Button layoutX="146.0" layoutY="336.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="116.0" text="Atrás" />
+      <Label fx:id="lblEmpleado" layoutX="24.0" layoutY="70.0" prefHeight="61.0" prefWidth="209.0" />
+      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="31.0" prefWidth="510.0">
+        <menus>
+          <Menu fx:id="menuInicio" mnemonicParsing="false" text="Inicio">
+               <items>
+                  <MenuItem fx:id="menuItemIniciosesion" mnemonicParsing="false" text="Inicio de sesión" />
+               </items>
+          </Menu>
+            <Menu mnemonicParsing="false" text="Gestionar horarios">
+               <items>
+                  <MenuItem fx:id="menuItemGestionarHorarios" mnemonicParsing="false" text="Gestionar" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Gestionar reservas">
+               <items>
+                  <MenuItem fx:id="menuItemGestionarReservas" mnemonicParsing="false" text="Gestionar" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Historial reservas">
+               <items>
+                  <MenuItem fx:id="menuItemHistorial" mnemonicParsing="false" text="Gestionar" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="¿Desea cerrar sesión?" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
    </children>
 </AnchorPane>
