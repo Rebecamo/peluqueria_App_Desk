@@ -25,12 +25,12 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnAgregar" layoutX="468.0" layoutY="373.0" mnemonicParsing="false" onAction="#clickAgregarHorario" prefHeight="45.0" prefWidth="130.0" text="Agregar horarios" />
-      <Button fx:id="btnModificar" layoutX="468.0" layoutY="441.0" mnemonicParsing="false" onAction="#clickModificarHorario" prefHeight="45.0" prefWidth="130.0" text="Modificar horarios" />
-      <Button fx:id="btnEliminar" layoutX="472.0" layoutY="523.0" mnemonicParsing="false" onAction="#clickEliminarHorario" prefHeight="45.0" prefWidth="123.0" text="Eliminar horarios" />
+      <Button fx:id="btnAgregar" layoutX="560.0" layoutY="384.0" mnemonicParsing="false" onAction="#guardarHorario" prefHeight="45.0" prefWidth="130.0" text="Agregar horarios" />
+      <Button fx:id="btnModificar" layoutX="560.0" layoutY="450.0" mnemonicParsing="false" onAction="#clickModificarHorario" prefHeight="45.0" prefWidth="130.0" text="Modificar horarios" />
+      <Button fx:id="btnEliminar" layoutX="564.0" layoutY="518.0" mnemonicParsing="false" onAction="#clickEliminarHorario" prefHeight="45.0" prefWidth="123.0" text="Eliminar horarios" />
       <Label layoutX="238.0" layoutY="373.0" text="Seleccione día de disponibilidad" />
-      <Label layoutX="244.0" layoutY="455.0" text="Seleccione su hora de entrada" />
-      <Label layoutX="249.0" layoutY="523.0" text="Seleccione su hora de salida" />
+      <Label layoutX="244.0" layoutY="455.0" text="Coloque la hora de entrada al trabajo" />
+      <Label layoutX="249.0" layoutY="523.0" text="Coloque su hora de salida del trabajo" />
       <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="740.0">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
@@ -56,11 +56,11 @@
         </menus>
       </MenuBar>
       <ComboBox fx:id="cmbDiaSemana" layoutX="238.0" layoutY="406.0" prefHeight="25.0" prefWidth="215.0" />
-      <ComboBox fx:id="cmbHoraInicio" layoutX="238.0" layoutY="486.0" prefHeight="25.0" prefWidth="215.0" />
-      <ComboBox fx:id="cmbHoraFin" layoutX="238.0" layoutY="556.0" prefHeight="25.0" prefWidth="215.0" />
       <TextField fx:id="txtIdHorario" layoutX="33.0" layoutY="406.0" />
       <TextField fx:id="txtIdEmpleado" layoutX="33.0" layoutY="486.0" />
       <Label layoutX="32.0" layoutY="373.0" text="ID Horario" />
       <Label layoutX="33.0" layoutY="455.0" text="ID Empleado" />
+      <TextField fx:id="txtHoraInicio" layoutX="238.0" layoutY="486.0" prefHeight="25.0" prefWidth="215.0" />
+      <TextField fx:id="txtHoraFin" layoutX="238.0" layoutY="556.0" prefHeight="25.0" prefWidth="215.0" />
    </children>
 </AnchorPane>

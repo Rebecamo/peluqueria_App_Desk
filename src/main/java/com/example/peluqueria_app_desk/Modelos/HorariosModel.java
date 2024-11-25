@@ -66,7 +66,7 @@ public class HorariosModel {
     public void setHoraFin(String horaFin) {
         this.horaFin = horaFin;
     }
-    public ObservableList<HorariosModel> getHorarios() {
+    public ObservableList<HorariosModel> getHorarios(int empleadoId) {
         Connection connection = null;
         try {
             connection = ConexionDB.connection();
@@ -74,10 +74,12 @@ public class HorariosModel {
             ObservableList<HorariosModel> dataHorarios = FXCollections.observableArrayList();
 
             Statement statement = connection.createStatement();
+
             ResultSet resultSet = statement.executeQuery("SELECT * FROM tbl_horarios;");
 
             while (resultSet.next()) {
                 HorariosModel horarioModel = new HorariosModel();
+
 
                 horarioModel.setIdHorario(resultSet.getInt("id_horario"));
                 horarioModel.setIdEmpleado(resultSet.getInt("id_empleado")); // Nuevo campo
@@ -109,7 +111,7 @@ public class HorariosModel {
             PreparedStatement preparedStatement = null;
 
             preparedStatement = con.prepareStatement(
-                    "INSERT INTO tbl_horarios(idempleado, diasemana, horainicio, horafin) VALUES (?, ?, ?, ?);"
+                    "INSERT INTO tbl_horarios(id_empleado, dia_semana, hora_inicio, hora_fin) VALUES (?, ?, ?, ?);"
             );
 
             preparedStatement.setInt(1, this.idEmpleado); // Campo idEmpleado
@@ -233,6 +235,7 @@ public class HorariosModel {
             }
         }
     }
+
 
 
 }

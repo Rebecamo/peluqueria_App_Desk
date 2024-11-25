@@ -1,7 +1,5 @@
 package com.example.peluqueria_app_desk;
-import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 import com.example.peluqueria_app_desk.Modelos.HorariosModel;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -15,104 +13,129 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.*;
+
+import java.time.LocalTime;
+
+import java.time.format.DateTimeParseException;
+
 
 public class HorariosController {
-
     @FXML
     private TableView<HorariosModel> tblHorarios;
-
     @FXML
     private TableColumn<HorariosModel, Integer> clidHorario;
-
     @FXML
     private TableColumn<HorariosModel, Integer> clidEmpleado;
-
     @FXML
     private TableColumn<HorariosModel, String> clDiaSemana;
-
     @FXML
     private TableColumn<HorariosModel, String> clHoraEntrada;
-
     @FXML
     private TableColumn<HorariosModel, String> clHoraSalida;
-
-
     @FXML
     private ComboBox<String> cmbDiaSemana;
-
-    @FXML
-    private ComboBox<String> cmbHoraFin;
-
-    @FXML
-    private ComboBox<String> cmbHoraInicio;
-
     @FXML
     private TextField txtIdEmpleado;
-
     @FXML
     private TextField txtIdHorario;
-
-    private ObservableList<HorariosModel> horariosList;
-    private int empleadoId;
-
-
     @FXML
     private MenuBar menuBar;
-
     @FXML
     private MenuItem menuItemAtras;
-
-
+    @FXML
+    private TextField txtHoraFin;
+    @FXML
+    private TextField txtHoraInicio;
     @FXML
     private MenuItem menuItemGestionReservas;
     @FXML
     private MenuItem menuItemHistorial;
     @FXML
     private MenuItem menuItemInicio;
-    private int idEmpleadoAutenticado;
+    private final ObservableList<String> diasSemana = FXCollections.observableArrayList(
+            "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
+    );
+
     @FXML
     public void initialize() {
         // Configurar las columnas de la tabla
-        clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
-        clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
-        clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
-        clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
-        clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
-        this.cargarTablaHorarios();
+
+        this.clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
+        this.clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+        this.clDiaSemana.setCellValueFactory(new PropertyValueFactory<>("diaSemana"));
+        this.clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
+        this.clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
+        cmbDiaSemana.setItems(diasSemana);
+        this.cargarTabla(); // Método que obtiene los datos de horarios y los añade a la tabla
+
+// Configurar el evento para seleccionar una fila
         this.tblHorarios.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
-                HorariosModel horarioTemporal = tblHorarios.getSelectionModel().getSelectedItem();
-                if (horarioTemporal != null) {
-                    txtIdHorario.setText(String.valueOf(horarioTemporal.getIdHorario()));
-                    txtIdEmpleado.setText(String.valueOf(horarioTemporal.getIdEmpleado()));
-                    cmbDiaSemana.setValue(horarioTemporal.getDiaSemana());
-                    cmbHoraInicio.setValue(horarioTemporal.getHoraInicio());
-                    cmbHoraFin.setValue(horarioTemporal.getHoraFin());
-                }
+                HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
+
+                // Asignar los valores del objeto seleccionado a los campos de la interfaz
+                txtIdHorario.setText(String.valueOf(horarioSeleccionado.getIdHorario()));
+                txtIdEmpleado.setText(String.valueOf(horarioSeleccionado.getIdEmpleado()));
+                cmbDiaSemana.setValue(horarioSeleccionado.getDiaSemana());
+                txtHoraInicio.setText(horarioSeleccionado.getHoraInicio());
+                txtHoraFin.setText(horarioSeleccionado.getHoraFin());
+
+
             }
         });
-
-
-        cmbDiaSemana.getItems().addAll("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado");
-
-        // Rellenar valores para los ComboBox de horas (inicio y fin)
-        cmbHoraInicio.getItems().addAll(
-                "07:00 am","08:00 am", "09:00 am", "10:00 am", "11:00 am", "12:00 pm"
-
-        );
-        cmbHoraFin.getItems().addAll(
-
-                "12:00 pm","01:00 pm","02:00 pm", "03:00 pm", "04:00 pm", "05:00 pm"
-
-        );
-
         menuItemAtras.setOnAction(event -> gestion());
         menuItemGestionReservas.setOnAction(event -> gestionReservas());
         menuItemHistorial.setOnAction(event -> historial());
         menuItemInicio.setOnAction(event -> inicio());
     }
+
+    public void cargarTabla() {
+        try {
+            // Crear una instancia del modelo y obtener la lista de horarios
+            HorariosModel modelo = new HorariosModel();
+            ObservableList<HorariosModel> listaHorarios = modelo.getHorarios(0); // 0 significa cargar todos los horarios
+
+            // Asignar la lista al TableView
+            tblHorarios.setItems(listaHorarios);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudieron cargar los horarios", Alert.AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    public void guardarHorario() {
+        try {
+            // Validar entradas
+            if (txtIdEmpleado.getText().isEmpty() || cmbDiaSemana.getValue() == null ||
+                    txtHoraInicio.getText().isEmpty() || txtHoraFin.getText().isEmpty()) {
+                mostrarAlerta("Advertencia", "Todos los campos son obligatorios", Alert.AlertType.WARNING);
+                return;
+            }
+
+            // Crear una instancia del modelo
+            HorariosModel nuevoHorario = new HorariosModel();
+            nuevoHorario.setIdEmpleado(Integer.parseInt(txtIdEmpleado.getText()));
+            nuevoHorario.setDiaSemana(cmbDiaSemana.getValue());
+            nuevoHorario.setHoraInicio(txtHoraInicio.getText());
+            nuevoHorario.setHoraFin(txtHoraFin.getText());
+
+            // Guardar en la base de datos
+            int resultado = nuevoHorario.saveHorario();
+            if (resultado > 0) {
+                mostrarAlerta("Éxito", "Horario guardado correctamente", Alert.AlertType.INFORMATION);
+                cargarTabla(); // Actualizar la tabla
+                limpiarCampos(); // Limpiar los campos
+            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta("Error", "El ID del empleado debe ser un número", Alert.AlertType.ERROR);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Error", "No se pudo guardar el horario", Alert.AlertType.ERROR);
+        }
+    }
+
 
     private void vistas(String fxmlFile) {
         try {
@@ -130,10 +153,10 @@ public class HorariosController {
             e.printStackTrace();
         }
     }
+
     private void inicio() {
         vistas("view_login.fxml");
     }
-
 
 
     private void gestionReservas() {
@@ -149,108 +172,62 @@ public class HorariosController {
         vistas("view_Gestion.fxml"); // Redirige al login
     }
 
-
-    @FXML
-    private void clickAgregarHorario() {
-        if (cmbDiaSemana.getSelectionModel().isEmpty() || cmbHoraInicio.getSelectionModel().isEmpty() || cmbHoraFin.getSelectionModel().isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos del horario deben estar seleccionados.", Alert.AlertType.ERROR);
-            return;
-        }
-
-        String diaSemana = cmbDiaSemana.getValue();
-        String horaInicio = cmbHoraInicio.getValue();
-        String horaFin = cmbHoraFin.getValue();
-
-        if (horaInicio.compareTo(horaFin) >= 0) {
-            mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
-            return;
-        }
-
-        HorariosModel nuevoHorario = new HorariosModel();
-
-        nuevoHorario.setDiaSemana(diaSemana);
-        nuevoHorario.setHoraInicio(horaInicio);
-        nuevoHorario.setHoraFin(horaFin);
-
-        int result = nuevoHorario.saveHorario();
-        if (result > 0) {
-            mostrarAlerta("Éxito", "Horario agregado correctamente.", Alert.AlertType.INFORMATION);
-            cargarTablaHorarios(); // Refresca la tabla
-            limpiarCamposHorario();
-        } else {
-            mostrarAlerta("Error", "No se pudo agregar el horario.", Alert.AlertType.ERROR);
-        }
-    }
-    public void cargarTablaHorarios() {
-        tblHorarios.getItems().clear();
-        HorariosModel horarios = new HorariosModel();
-        ObservableList<HorariosModel> dataHorarios = horarios.getHorarios(); // Solo los del empleado autenticado
-        tblHorarios.getItems().addAll(dataHorarios);
-    }
-    private void limpiarCamposHorario() {
-        cmbDiaSemana.getSelectionModel().clearSelection();
-        cmbHoraInicio.getSelectionModel().clearSelection();
-        cmbHoraFin.getSelectionModel().clearSelection();
-    }
+    //clik para modificar listo
     @FXML
     private void clickModificarHorario() {
-        HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
+        // Verificar si se ha seleccionado un horario en la tabla
+        if (tblHorarios.getSelectionModel().getSelectedItem() != null) {
+            HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
 
-        if (horarioSeleccionado == null) {
-            mostrarAlerta("Error", "Debes seleccionar un horario para modificar.", Alert.AlertType.ERROR);
-            return;
-        }
+            // Obtener las horas ingresadas en los TextField
+            String nuevaHoraInicio = txtHoraInicio.getText();
+            String nuevaHoraFin = txtHoraFin.getText();
 
-        if (cmbDiaSemana.getSelectionModel().isEmpty() || cmbHoraInicio.getSelectionModel().isEmpty() || cmbHoraFin.getSelectionModel().isEmpty()) {
-            mostrarAlerta("Error", "Todos los campos del horario deben estar seleccionados.", Alert.AlertType.ERROR);
-            return;
-        }
+            // Validación del formato HH:mm para ambas horas
+            if (!nuevaHoraInicio.matches("\\d{2}:\\d{2}") || !nuevaHoraFin.matches("\\d{2}:\\d{2}")) {
+                mostrarAlerta("Error", "Por favor, ingresa las horas en el formato HH:mm (ejemplo: 09:00)", Alert.AlertType.ERROR);
+                return;
+            }
 
-        String diaSemana = cmbDiaSemana.getValue();
-        String horaInicio = cmbHoraInicio.getValue();
-        String horaFin = cmbHoraFin.getValue();
+            try {
+                // Convertir las horas ingresadas a objetos LocalTime
+                LocalTime horaInicio = LocalTime.parse(nuevaHoraInicio);
+                LocalTime horaFin = LocalTime.parse(nuevaHoraFin);
 
-        if (horaInicio.compareTo(horaFin) >= 0) {
-            mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
-            return;
-        }
+                // Verificar que la hora de inicio sea anterior a la hora de fin
+                if (horaInicio.isAfter(horaFin) || horaInicio.equals(horaFin)) {
+                    mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
+                    return;
+                }
 
-        horarioSeleccionado.setDiaSemana(diaSemana);
-        horarioSeleccionado.setHoraInicio(horaInicio);
-        horarioSeleccionado.setHoraFin(horaFin);
+                // Actualizar los valores en el modelo seleccionado
+                horarioSeleccionado.setHoraInicio(nuevaHoraInicio);
+                horarioSeleccionado.setHoraFin(nuevaHoraFin);
+                horarioSeleccionado.setDiaSemana(cmbDiaSemana.getValue()); // Día seleccionado en ComboBox
 
-        int result = horarioSeleccionado.editHorario();
-        if (result > 0) {
-            mostrarAlerta("Éxito", "Horario modificado correctamente.", Alert.AlertType.INFORMATION);
-            cargarTablaHorarios(); // Refresca la tabla
-            limpiarCamposHorario();
+
+                int result = horarioSeleccionado.editHorario();
+                if (result > 0) {
+                    mostrarAlerta("Éxito", "Horario modificado correctamente.", Alert.AlertType.INFORMATION);
+                    cargarTabla(); // Actualizar la tabla
+                    limpiarCampos(); // Limpiar los campos de texto y ComboBox
+                } else {
+                    mostrarAlerta("Error", "No se pudo modificar el horario.", Alert.AlertType.ERROR);
+                }
+            } catch (DateTimeParseException e) {
+                mostrarAlerta("Error", "Formato de hora inválido. Por favor, ingresa horas válidas en formato HH:mm.", Alert.AlertType.ERROR);
+            }
         } else {
-            mostrarAlerta("Error", "No se pudo modificar el horario.", Alert.AlertType.ERROR);
+            mostrarAlerta("Error", "Por favor, selecciona un horario en la tabla para modificar.", Alert.AlertType.WARNING);
         }
     }
-    private void cargarHorarios() {
-        horariosList.clear(); // Limpiar la lista antes de cargar datos
+    //limpiar campos listo
 
-        String query = "SELECT * FROM tbl_horarios WHERE id_empleado = ?";
-        try (Connection connection = ConexionDB.connection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
-            statement.setInt(1, empleadoId); // Filtrar por empleado
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()) {
-                horariosList.add(new HorariosModel(
-                        resultSet.getInt("id_horario"),
-                        resultSet.getInt("id_empleado"), // Incluye el id_empleado
-                        resultSet.getString("dia_semana"),
-                        resultSet.getTime("hora_inicio").toString(),
-                        resultSet.getTime("hora_fin").toString()
-                ));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        tblHorarios.setItems(horariosList);
+    private void limpiarCampos() {
+        txtIdEmpleado.clear();
+        cmbDiaSemana.getSelectionModel().clearSelection();
+        txtHoraInicio.clear();
+        txtHoraFin.clear();
     }
 
 
@@ -266,25 +243,16 @@ public class HorariosController {
         int result = horarioSeleccionado.deleteHorario();
         if (result > 0) {
             mostrarAlerta("Éxito", "Horario eliminado correctamente.", Alert.AlertType.INFORMATION);
-            cargarTablaHorarios(); // Refresca la tabla
+            cargarTabla(); // Refresca la tabla
         } else {
             mostrarAlerta("Error", "No se pudo eliminar el horario.", Alert.AlertType.ERROR);
         }
     }
 
-
-    private void mostrarAlerta(String titulo, String mensaje, Alert.AlertType tipo) {
+    private void mostrarAlerta(String titulo, String contenido, Alert.AlertType tipo) {
         Alert alerta = new Alert(tipo);
         alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
+        alerta.setContentText(contenido);
         alerta.showAndWait();
     }
-
-    // ID del empleado que inició sesión
-
-
-
-
-
-    }
+}
