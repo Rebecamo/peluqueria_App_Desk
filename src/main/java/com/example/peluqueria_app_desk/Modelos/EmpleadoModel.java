@@ -5,6 +5,7 @@ import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EmpleadoModel {
     private int idEmpleado;
@@ -93,6 +94,35 @@ public class EmpleadoModel {
     public void setContraseña(String contraseña) {
         this.contraseña = contraseña;
     }
+    /*public String obtenerNombreEmpleado(int idEmpleado) {
+        try {
+            String query = "SELECT nombres FROM tbl_empleados WHERE id_empleado = ?";
+            PreparedStatement stmt = ConexionDB.connection().prepareStatement(query);
+            stmt.setInt(1, idEmpleado);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nombres");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Agrega un retorno explícito para casos en los que no se encuentra el empleado
+        return null;
+    }
+   /* public static String obtenerNombrePorId(int idEmpleado) {
+        // Simulación de una consulta a base de datos
+        // Reemplazar esto con la lógica real de tu conexión y consulta
+        switch (idEmpleado) {
+            case 1:
+                return  ;
+            case 2:
+                return "Juan García";
+            default:
+                return "Empleado Desconocido";
+        }
+    }*/
 
     public int validarCredenciales(String correo, String contraseña) {
         try (Connection connection = ConexionDB.connection()) {

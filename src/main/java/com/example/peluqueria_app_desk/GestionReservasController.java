@@ -5,16 +5,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
 public class GestionReservasController {
     @FXML
     private Button btnAceptar;
-
+    @FXML
+    private ComboBox<String> cmbHoraReserva;
     @FXML
     private Button btnCancelar;
 
@@ -56,16 +62,30 @@ public class GestionReservasController {
 
     @FXML
     private TextField txtidReserva;
+    @FXML
+    private MenuBar menuBar;
+
+    @FXML
+    private MenuItem menuItemGestion;
+
+    @FXML
+    private MenuItem menuItemHistorial;
+
+    @FXML
+    private MenuItem menuItemHorarios;
+
+    @FXML
+    private MenuItem menuItemInicio;
 
     private ReservasModel reservas;
 
-    public void initialize(){
+    public void initialize() {
 
 
         this.clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
         this.clidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
         this.clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
-      this.clidServicio.setCellValueFactory(new PropertyValueFactory<>("idServicio"));
+        this.clidServicio.setCellValueFactory(new PropertyValueFactory<>("idServicio"));
         this.clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fechaReserva"));
         this.clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
         this.clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
@@ -84,8 +104,47 @@ public class GestionReservasController {
             }
         });
 
+        menuItemHorarios.setOnAction(event -> gestionHorario());
+        menuItemGestion.setOnAction(event -> gestion());
+        menuItemHistorial.setOnAction(event -> historial());
+        menuItemInicio.setOnAction(event -> inicio());
+
+    }
+    private void vistas(String fxmlFile) {
+        try {
+            // Cargar la nueva vista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void inicio() {
+        vistas("view_login.fxml");
     }
 
+    private void gestionHorario() {
+        vistas("view_horarios.fxml");
+    }
+
+
+
+    private void historial() {
+        vistas("view_historial_reservas.fxml");
+    }
+
+    private void gestion() {
+
+        vistas("view_Gestion.fxml"); // Redirige al login
+    }
+    // para pasasr el id del empleado
 
     public void cargarComboBox(){
         ObservableList<String> estadosReserva = FXCollections.observableArrayList(
@@ -182,7 +241,11 @@ public class GestionReservasController {
 
     private void limpiarCampos(){
         txtidReserva.clear();
-        txtHoraReserva.clear();
+
+
+            txtHoraReserva.clear();
+            // Limpiar otros campos...
+
         cmbEstadoReserva.getSelectionModel().clearSelection();
         dateFechaReserva.setValue(null);
     }
