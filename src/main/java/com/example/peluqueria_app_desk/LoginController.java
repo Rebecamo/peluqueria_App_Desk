@@ -32,7 +32,20 @@ public class LoginController {
     private TextField txtCorreo;
     @FXML
     private StackPane passwordPane;
+    @FXML
+    private MenuBar menuBar;
 
+    @FXML
+    private MenuItem menuItemGestionarHorarios;
+
+    @FXML
+    private MenuItem menuItemGestionarReservas;
+
+    @FXML
+    private MenuItem menuItemHistorial;
+
+    @FXML
+    private MenuItem menuItemInicio;
     @FXML
     private PasswordField txtPass;
 
@@ -40,6 +53,11 @@ public class LoginController {
     private CheckBox ckbMostrarPass;
     @FXML
     private TextField txtPassVisible;
+     // Enlazar con el MenuBar en el FXML
+
+    private void habilitarMenuBar(boolean habilitar) {
+        menuBar.setDisable(!habilitar);
+    }
 
     private final EmpleadoModel empleadoModel = new EmpleadoModel();
 
@@ -49,11 +67,48 @@ public class LoginController {
         configurarHabilitacionBoton();
         configurarCambioFoco();
         configurarVisualizacionContraseña();
+        habilitarMenuBar(false);
 
 
+        menuItemGestionarHorarios.setOnAction(event -> gestionHorario());
+        menuItemGestionarReservas.setOnAction(event -> gestionReservas());
+        menuItemHistorial.setOnAction(event -> historial());
+        menuItemInicio.setOnAction(event -> inicio());
 
     }
-    public void togglePasswordVisibility() {
+    private void vistas(String fxmlFile) {
+        try {
+            // Cargar la nueva vista
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+
+            // Obtener el Stage actual
+            Stage stage = (Stage) menuBar.getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private void inicio() {
+        vistas("view_login.fxml");
+    }
+
+    private void gestionHorario() {
+        vistas("view_horarios.fxml");
+    }
+
+    private void gestionReservas() {
+        vistas("view_gestion_reservas.fxml");
+    }
+
+    private void historial() {
+        vistas("view_historial_reservas.fxml");
+    }
+
+    /* public void togglePasswordVisibility() {
         if (ckbMostrarPass.isSelected()) {
             // Mostrar el campo de texto visible
             txtPassVisible.setText(txtPass.getText());
@@ -70,7 +125,7 @@ public class LoginController {
             txtPassVisible.setManaged(false);
         }
 
-    }
+    }*/
     private void configurarVisualizacionContraseña() {
 
         ckbMostrarPass.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -150,8 +205,9 @@ public class LoginController {
         int idEmpleado = empleadoModel.validarCredenciales(correo, contraseña);
 
         if (idEmpleado != -1) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("view_Gestion.fxml"));
+            mostrarMensaje("Inicio de sesión exitoso.");
+                habilitarMenuBar(true);
+              /*  FXMLLoader loader = new FXMLLoader(getClass().getResource("view_Gestion.fxml"));
                 Parent root = loader.load();
 
                 // Obtener la ventana actual desde un botón, por ejemplo "btnIngresar"
@@ -163,16 +219,11 @@ public class LoginController {
                 // Cambiar la escena de la ventana actual
                 currentStage.setScene(scene);
                 currentStage.show();
+            */
 
-
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                mostrarMensaje("Error al cargar la vista.");
-            }
         } else {
             mostrarMensaje("Correo o contraseña incorrectos.");
+            habilitarMenuBar(false);
         }
     }
 }
