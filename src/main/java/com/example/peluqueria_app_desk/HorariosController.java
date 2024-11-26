@@ -51,6 +51,14 @@ public class HorariosController {
     @FXML
     private MenuItem menuItemHistorial;
     @FXML
+    private Button btnAgregar;
+
+    @FXML
+    private Button btnEliminar;
+
+    @FXML
+    private Button btnModificar;
+    @FXML
     private MenuItem menuItemInicio;
     private final ObservableList<String> diasSemana = FXCollections.observableArrayList(
             "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
@@ -58,7 +66,15 @@ public class HorariosController {
 
     @FXML
     public void initialize() {
-        // Configurar las columnas de la tabla
+
+        txtIdHorario.setEditable(false);
+        txtIdEmpleado.setOnAction(event -> txtHoraInicio.requestFocus());
+        txtHoraInicio.setOnAction(event -> txtHoraFin.requestFocus());
+        btnAgregar.setFocusTraversable(false);
+        btnModificar.setFocusTraversable(false);
+        btnEliminar.setFocusTraversable(false);
+
+
 
         this.clidHorario.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
         this.clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
@@ -66,7 +82,7 @@ public class HorariosController {
         this.clHoraEntrada.setCellValueFactory(new PropertyValueFactory<>("horaInicio"));
         this.clHoraSalida.setCellValueFactory(new PropertyValueFactory<>("horaFin"));
         cmbDiaSemana.setItems(diasSemana);
-        this.cargarTabla(); // Método que obtiene los datos de horarios y los añade a la tabla
+        this.cargarTabla();
 
 // Configurar el evento para seleccionar una fila
         this.tblHorarios.setOnMouseClicked(new EventHandler<MouseEvent>() {
