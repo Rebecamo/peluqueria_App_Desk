@@ -140,8 +140,7 @@ public class HorariosModel {
             preparedStatement.setInt(1, this.idEmpleado); // id_empleado
             preparedStatement.setString(2, this.diaSemana); // dia_semana
 
-            // Validación y conversión de horaInicio
-            System.out.println("Hora de inicio antes de la conversión: " + this.horaInicio);
+
             if (this.horaInicio != null) {
                 if (!this.horaInicio.contains(":")) {
                     throw new IllegalArgumentException("Formato de hora inválido. Debe contener ':'");
@@ -152,11 +151,10 @@ public class HorariosModel {
             } else {
                 throw new IllegalArgumentException("La hora de inicio no puede ser nula");
             }
-            System.out.println("Hora de inicio después de la conversión: " + this.horaInicio);
+
             preparedStatement.setTime(3, java.sql.Time.valueOf(this.horaInicio)); // hora_inicio
 
-            // Validación y conversión de horaFin
-            System.out.println("Hora de fin antes de la conversión: " + this.horaFin);
+
             if (this.horaFin != null) {
                 if (!this.horaFin.contains(":")) {
                     throw new IllegalArgumentException("Formato de hora inválido. Debe contener ':'");
@@ -167,7 +165,7 @@ public class HorariosModel {
             } else {
                 throw new IllegalArgumentException("La hora de fin no puede ser nula");
             }
-            System.out.println("Hora de fin después de la conversión: " + this.horaFin);
+
             preparedStatement.setTime(4, java.sql.Time.valueOf(this.horaFin)); // hora_fin
 
             // Asignar el ID del horario
