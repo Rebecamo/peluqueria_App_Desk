@@ -9,6 +9,7 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ReservasModel {
 
@@ -119,28 +120,9 @@ public class ReservasModel {
         }
     }
 
-    public ObservableList<ReservasModel>getReservasPorFecha(){
-        Connection connection = ConexionDB.connection();
-        ObservableList<ReservasModel>dataReservas=FXCollections.observableArrayList();
-        try {
-            Statement statement = connection.createStatement();
-            String consulta = "SELECT fecha_reserva, COUNT(*) AS total_reservas FROM tbl_reservas GROUP BY fecha_reserva ORDER BY fecha_reserva;";
-            ResultSet resultSet = statement.executeQuery(consulta);
-            while(resultSet.next()){
-                String fecha = resultSet.getString("fecha_reserva");
-                int totalRservas = resultSet.getInt("total_reservas");
 
-                ReservasModel reserva = new ReservasModel();
-                reserva.setFechaReserva(LocalDate.parse(fecha));
-                dataReservas.add(reserva);
 
-            }
-            return dataReservas;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error al obtener reservas por fecha");
-        }
-    }
+
 
     public ObservableList<String>getClientesFrecuentes(){
         ObservableList<String>clientes = FXCollections.observableArrayList();

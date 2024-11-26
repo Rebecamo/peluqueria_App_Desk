@@ -71,7 +71,7 @@ public class HistorialReservasController {
         clEmpleado.setCellValueFactory(new PropertyValueFactory<>("empleado"));
         clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
 
-        // Cargar datos en la tabla
+        // cargar datos en la tabla
         cargarDatos();
         menuItemGestionHorario.setOnAction(event -> gestionHorario());
         menuItemGestionReservas.setOnAction(event -> gestionReservas());
