@@ -1,7 +1,7 @@
 package com.example.peluqueria_app_desk;
 
-import com.example.peluqueria_app_desk.Modelos.HistorialModel;
-import com.example.peluqueria_app_desk.Modelos.ReservasModel;
+import com.example.peluqueria_app_desk.Conexion.ConexionDB;
+import com.example.peluqueria_app_desk.Modelos.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,104 +18,73 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class HistorialReservasController {
+//CLIENTES FRECUENTES
     @FXML
-    private TableView<ReservasModel> tblReservas;
+    private TableColumn<HistorialModel, String> clNombreCliente;
 
     @FXML
-    private TableColumn<ReservasModel, Integer> clidReserva;
-    @FXML
-    private TableColumn<ReservasModel, String> clCliente;
-    @FXML
-    private TableColumn<ReservasModel, String> clServicio;
-    @FXML
-    private TableColumn<ReservasModel, LocalDate> clFechaReserva;
-    @FXML
-    private TableColumn<ReservasModel, String> clHoraReserva;
-    @FXML
-    private TableColumn<ReservasModel, String> clEmpleado;
-    @FXML
-    private TableColumn<ReservasModel, String> clEstadoReserva;
+    private TableColumn<HistorialModel, Integer> clTotalReservas;
 
     @FXML
-    private MenuBar menuBar;
+    private TableColumn<HistorialModel, Integer> clidCliente;
+    @FXML
+    private TableView<HistorialModel> tblClientesFrecuentes;
 
     @FXML
-    private MenuItem menuItemAtras;
+    private TableView<HistorialHorasModel> tblHorariosDemandados;
+    @FXML
+    private TableColumn<HistorialHorasModel, Integer> clTotalReservasHorarios;
+    @FXML
+    private TableColumn<HistorialHorasModel, String> clHoraReserva;
+    @FXML
+    private TableColumn<HistorialHorasModel, Integer> clidHora;
 
     @FXML
-    private MenuItem menuItemGestionHorario;
-
+    private TableColumn<HistorialReservasEmpleadoModel, Integer> clidEmpleado;
     @FXML
-    private MenuItem menuItemGestionReservas;
-
+    private TableView<HistorialReservasEmpleadoModel> tblReservasPorEmpleado;
     @FXML
-    private MenuItem menuItemInicio;
+    private TableColumn<HistorialReservasEmpleadoModel, Integer> clTotalReservasEmpleados;
+    @FXML
+    private TableColumn<HistorialReservasEmpleadoModel, String> clNombreEmpleado;
 
-
-    private ReservasModel reservasModel = new ReservasModel();
-
-    public void initialize() {
-        // Configurar columnas
-
-        clidReserva.setCellValueFactory(new PropertyValueFactory<>("idReserva"));
-        clCliente.setCellValueFactory(new PropertyValueFactory<>("cliente"));
-        clServicio.setCellValueFactory(new PropertyValueFactory<>("servicio"));
-        clFechaReserva.setCellValueFactory(new PropertyValueFactory<>("fecha"));
-
-        clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("horaReserva"));
-        clEmpleado.setCellValueFactory(new PropertyValueFactory<>("empleado"));
-        clEstadoReserva.setCellValueFactory(new PropertyValueFactory<>("estadoReserva"));
-
-        // cargar datos en la tabla
-        cargarDatos();
-        menuItemGestionHorario.setOnAction(event -> gestionHorario());
-        menuItemGestionReservas.setOnAction(event -> gestionReservas());
-        menuItemAtras.setOnAction(event -> gestion());
-        menuItemInicio.setOnAction(event -> inicio());
+    public void initialize(){
+        cargarTablaClientesFrecuentes();
+       cargarTablaHorariosDemandados();
+        cargarTablaReservasPorEmpleado();
     }
-    private void vistas(String fxmlFile) {
-        try {
-            // Cargar la nueva vista
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
-            Parent root = loader.load();
+    public void cargarTablaClientesFrecuentes() {
+        clidCliente.setCellValueFactory(new PropertyValueFactory<>("idCliente"));
+        clNombreCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
+        clTotalReservas.setCellValueFactory(new PropertyValueFactory<>("totalReservas"));
 
-            // Obtener el Stage actual
-            Stage stage = (Stage) menuBar.getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+        HistorialModel modelo = new HistorialModel();
+        tblClientesFrecuentes.setItems(modelo.getClientesFrecuentes());
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+}
+    public void cargarTablaHorariosDemandados() {
+        clidHora.setCellValueFactory(new PropertyValueFactory<>("idHorario"));
+        clHoraReserva.setCellValueFactory(new PropertyValueFactory<>("hora"));
+        clTotalReservasHorarios.setCellValueFactory(new PropertyValueFactory<>("totalReservas2"));
+
+        HistorialHorasModel modelo = new HistorialHorasModel();
+        ObservableList<HistorialHorasModel> listaHorarios = modelo.getHorariosMasDemandados();
+        tblHorariosDemandados.setItems(listaHorarios);
     }
-    private void inicio() {
-        vistas("view_login.fxml");
-    }
+    public void cargarTablaReservasPorEmpleado() {
+        clidEmpleado.setCellValueFactory(new PropertyValueFactory<>("idEmpleado"));
+        clNombreEmpleado.setCellValueFactory(new PropertyValueFactory<>("nombreEmpleado"));
+        clTotalReservasEmpleados.setCellValueFactory(new PropertyValueFactory<>("totalReservas3"));
 
-    private void gestionHorario() {
-        vistas("view_horarios.fxml");
-    }
-
-    private void gestionReservas() {
-        vistas("view_gestion_reservas.fxml");
-    }
-
-
-    private void gestion() {
-
-        vistas("view_Gestion.fxml"); // Redirige al login
-    }
-
-
-    @FXML
-    private void cargarDatos() {
-        ObservableList<ReservasModel> reservas = reservasModel.getReservas(); // Método ya implementado
-        tblReservas.setItems(reservas);
+        HistorialReservasEmpleadoModel modelo = new HistorialReservasEmpleadoModel();
+        tblReservasPorEmpleado.setItems(modelo.getReservasPorEmpleado());
     }
 }

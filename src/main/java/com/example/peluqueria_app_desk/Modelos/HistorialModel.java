@@ -1,88 +1,78 @@
 package com.example.peluqueria_app_desk.Modelos;
 
-import com.example.peluqueria_app_desk.Conexion.ConexionDB;
 
-import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.peluqueria_app_desk.Conexion.ConexionDB;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class HistorialModel {
-    private String cliente;
-    private String servicio;
-    private LocalDateTime fecha;
-    private String empleado;
-    private String estado;
+
+
+    //CLIENTES FRECUENTES
+    private int idCliente;
+    private String nombreCliente;
+    private int totalReservas;
+
+
+
+        public int getIdCliente() {
+        return idCliente;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public int getTotalReservas() {
+        return totalReservas;
+    }
+
+    public HistorialModel(int idCliente, String nombreCliente, int totalReservas) {
+        this.idCliente = idCliente;
+        this.nombreCliente = nombreCliente;
+        this.totalReservas = totalReservas;
+    }
 
     public HistorialModel() {
     }
 
-    public HistorialModel(String cliente, String servicio, LocalDateTime fecha, String empleado, String estado) {
-        this.cliente = cliente;
-        this.servicio = servicio;
-        this.fecha = fecha;
-        this.empleado = empleado;
-        this.estado = estado;
-    }
-
-    public String getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(String cliente) {
-        this.cliente = cliente;
-    }
-
-    public String getServicio() {
-        return servicio;
-    }
-
-    public void setServicio(String servicio) {
-        this.servicio = servicio;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getEmpleado() {
-        return empleado;
-    }
-
-    public void setEmpleado(String empleado) {
-        this.empleado = empleado;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-    public List<ReservasModel> obtenerReservas() {
-        List<ReservasModel> reservas = new ArrayList<>();
-        String query = "SELECT cliente_nombre, servicio, fecha_reserva, empleado_asignado, estado FROM tbl_historial_reservas";
-
-        try (Statement stmt = ConexionDB.connection().createStatement();
-             ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                ReservasModel reserva = new ReservasModel(
-                        rs.getString("cliente_nombre"),
-                        rs.getString("servicio"),
-                        rs.getTimestamp("fecha_reserva").toLocalDateTime(),
-                        rs.getString("empleado_asignado"),
-                        rs.getString("estado")
+    //CLIENTES FRECUENTES
+    public ObservableList<HistorialModel> getClientesFrecuentes() {
+        ObservableList<HistorialModel> clientes = FXCollections.observableArrayList();
+        Connection connection = ConexionDB.connection();
+        try {
+            Statement statement = connection.createStatement();
+            String consulta = "SELECT c.id_cliente, c.nombre, COUNT(r.id_reserva) AS total_reservas " +
+                    "FROM tbl_reservas r " +
+                    "JOIN tbl_clientes c ON r.id_cliente = c.id_cliente " +
+                    "GROUP BY c.id_cliente, c.nombre " +
+                    "ORDER BY total_reservas DESC " +
+                    "LIMIT 10;";
+            ResultSet resultSet = statement.executeQuery(consulta);
+            while (resultSet.next()) {
+                HistorialModel cliente = new HistorialModel(
+                        resultSet.getInt("id_cliente"),
+                        resultSet.getString("nombre"),
+                        resultSet.getInt("total_reservas")
                 );
-                reservas.add(reserva);
+                clientes.add(cliente);
             }
         } catch (SQLException e) {
-            System.err.println("Error al obtener reservas: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Error al obtener clientes frecuentes");
         }
-        return reservas;
+        return clientes;
     }
+
+
+
+
+
 }
