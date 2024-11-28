@@ -7,14 +7,15 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="551.0" prefWidth="779.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HistorialReservasController">
+<AnchorPane prefHeight="608.0" prefWidth="835.0" style="-fx-background-color: #bae8e8;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HistorialReservasController">
    <children>
-      <MenuBar fx:id="menuBar" layoutX="-1.0" layoutY="2.0" prefHeight="36.0" prefWidth="779.0">
+      <MenuBar fx:id="menuBar" layoutX="-1.0" layoutY="2.0" prefHeight="36.0" prefWidth="835.0" style="-fx-background-color: #e3f6f5;">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
-              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Inicio de sesión" />
+              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Ir a inicio" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Gestionar horarios">
@@ -27,11 +28,6 @@
               <MenuItem fx:id="menuItemGestionReservas" mnemonicParsing="false" text="Gestionar" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Gestión">
-              <items>
-                <MenuItem fx:id="menuItemAtras" mnemonicParsing="false" text="Ir a gestión" />
-              </items>
-            </Menu>
             <Menu mnemonicParsing="false" text="Cerrar sesión">
               <items>
                 <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />
@@ -39,39 +35,51 @@
             </Menu>
         </menus>
       </MenuBar>
-      <TableView fx:id="tblClientesFrecuentes" layoutX="14.0" layoutY="102.0" prefHeight="174.0" prefWidth="369.0">
+      <TableView fx:id="tblClientesFrecuentes" layoutX="14.0" layoutY="122.0" prefHeight="201.0" prefWidth="369.0" style="-fx-background-color: #78cccc;">
         <columns>
-          <TableColumn fx:id="clidCliente" prefWidth="75.0" text="ID Cliente" />
-          <TableColumn fx:id="clNombreCliente" prefWidth="75.0" text="Nombre cliente" />
-            <TableColumn fx:id="clTotalReservas" prefWidth="75.0" text="Total reservas" />
+          <TableColumn fx:id="clidCliente" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Cliente" />
+          <TableColumn fx:id="clNombreCliente" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Nombre cliente" />
+            <TableColumn fx:id="clTotalReservas" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Total reservas" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="tblReservasPorEmpleado" layoutX="377.0" layoutY="51.0" prefHeight="174.0" prefWidth="369.0">
+      <TableView fx:id="tblReservasPorEmpleado" layoutX="14.0" layoutY="383.0" prefHeight="211.0" prefWidth="369.0" style="-fx-background-color: #78cccc;">
         <columns>
-          <TableColumn fx:id="clidEmpleado" prefWidth="75.0" text="ID Empleado" />
-          <TableColumn fx:id="clNombreEmpleado" prefWidth="75.0" text="Nombre empleado" />
-            <TableColumn fx:id="clTotalReservasEmpleados" prefWidth="75.0" text="Total reservas" />
+          <TableColumn fx:id="clidEmpleado" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Empleado" />
+          <TableColumn fx:id="clNombreEmpleado" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Nombre empleado" />
+            <TableColumn fx:id="clTotalReservasEmpleados" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Total reservas" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="tblHorariosDemandados" layoutX="14.0" layoutY="349.0" prefHeight="174.0" prefWidth="450.0">
+      <TableView fx:id="tblHorariosDemandados" layoutX="404.0" layoutY="122.0" prefHeight="352.0" prefWidth="417.0" style="-fx-background-color: #78cccc;">
         <columns>
-          <TableColumn fx:id="clidHora" prefWidth="75.0" text="ID Horario" />
-          <TableColumn fx:id="clHoraReserva" prefWidth="160.0" text="Hora reserva" />
-            <TableColumn fx:id="clTotalReservasHorarios" prefWidth="224.0" text="Total reservas horarios" />
+          <TableColumn fx:id="clidHora" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Horario" />
+          <TableColumn fx:id="clHoraReserva" prefWidth="160.0" style="-fx-background-color: #55d6d6;" text="Hora reserva" />
+            <TableColumn fx:id="clTotalReservasHorarios" prefWidth="224.0" style="-fx-background-color: #55d6d6;" text="Total reservas horarios" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="342.0" layoutY="51.0" text="HISTORIAL DE RESERVAS" />
-      <Label layoutX="92.0" layoutY="75.0" text="CLIENTES FRECUENTES" />
-      <Label layoutX="128.0" layoutY="307.0" text="HORARIOS MÁS DEMANDADOS" />
-      <Label layoutX="506.0" layoutY="75.0" text="RESERVAS POR EMPLEADO" />
+      <Label layoutX="293.0" layoutY="50.0" text="HISTORIAL DE RESERVAS">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="101.0" layoutY="84.0" text="CLIENTES FRECUENTES">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font></Label>
+      <Label layoutX="492.0" layoutY="84.0" text="HORARIOS MÁS DEMANDADOS">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font></Label>
+      <Label layoutX="101.0" layoutY="348.0" text="RESERVAS POR EMPLEADO">
+         <font>
+            <Font name="System Italic" size="14.0" />
+         </font></Label>
    </children>
 </AnchorPane>

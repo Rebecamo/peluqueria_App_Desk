@@ -7,6 +7,6 @@
 <AnchorPane prefHeight="427.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.InicioController">
    <children>
       <ImageView fx:id="imageInicio" fitHeight="427.0" fitWidth="600.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="btnEntrar" blendMode="DARKEN" layoutX="54.0" layoutY="280.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="201.0" text="ENTRAR" />
+      <Button fx:id="btnEntrar" blendMode="DARKEN" layoutX="54.0" layoutY="288.0" mnemonicParsing="false" opacity="0.58" prefHeight="51.0" prefWidth="201.0" text="ENTRAR" />
    </children>
 </AnchorPane>

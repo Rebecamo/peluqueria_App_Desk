@@ -13,56 +13,56 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="629.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionReservasController">
+<AnchorPane prefHeight="629.0" prefWidth="754.0" style="-fx-background-color: #bae8e8;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.GestionReservasController">
    <children>
       <Label layoutX="284.0" layoutY="58.0" text="Gestion de Reservas">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
       </Label>
-      <TableView fx:id="tbReservas" layoutX="34.0" layoutY="106.0" prefHeight="243.0" prefWidth="686.0">
+      <TableView fx:id="tbReservas" layoutX="34.0" layoutY="106.0" prefHeight="243.0" prefWidth="686.0" style="-fx-background-color: #78cccc;">
         <columns>
-          <TableColumn fx:id="clidReserva" prefWidth="75.0" text="ID Reserva" />
-          <TableColumn fx:id="clidCliente" prefWidth="75.0" text="ID Cliente" />
-            <TableColumn fx:id="clidEmpleado" prefWidth="97.0" text="ID Empleado" />
-            <TableColumn fx:id="clidServicio" prefWidth="84.0" text="ID Servicio" />
-            <TableColumn fx:id="clFechaReserva" prefWidth="121.0" text="Fecha Reserva" />
-            <TableColumn fx:id="clHoraReserva" prefWidth="113.0" text="Hora Reserva" />
-            <TableColumn fx:id="clEstadoReserva" prefWidth="120.0" text="Estado Reserva" />
+          <TableColumn fx:id="clidReserva" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Reserva" />
+          <TableColumn fx:id="clidCliente" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Cliente" />
+            <TableColumn fx:id="clidEmpleado" prefWidth="97.0" style="-fx-background-color: #55d6d6;" text="ID Empleado" />
+            <TableColumn fx:id="clidServicio" prefWidth="84.0" style="-fx-background-color: #55d6d6;" text="ID Servicio" />
+            <TableColumn fx:id="clFechaReserva" prefWidth="121.0" style="-fx-background-color: #55d6d6;" text="Fecha Reserva" />
+            <TableColumn fx:id="clHoraReserva" prefWidth="113.0" style="-fx-background-color: #55d6d6;" text="Hora Reserva" />
+            <TableColumn fx:id="clEstadoReserva" prefWidth="120.0" style="-fx-background-color: #55d6d6;" text="Estado Reserva" />
         </columns>
       </TableView>
       <Label layoutX="50.0" layoutY="369.0" prefHeight="31.0" prefWidth="83.0" text="Id Reserva:">
          <font>
-            <Font size="16.0" />
+            <Font name="System Italic" size="15.0" />
          </font>
       </Label>
       <TextField fx:id="txtidReserva" editable="false" layoutX="174.0" layoutY="372.0" prefHeight="25.0" prefWidth="104.0" />
       <Label layoutX="39.0" layoutY="424.0" text="Fecha Reserva:">
          <font>
-            <Font size="16.0" />
+            <Font name="System Italic" size="16.0" />
          </font>
       </Label>
       <DatePicker fx:id="dateFechaReserva" layoutX="162.0" layoutY="424.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label layoutX="43.0" layoutY="466.0" text="Hora Reserva:">
+      <Label layoutX="45.0" layoutY="474.0" text="Hora Reserva:">
          <font>
-            <Font size="16.0" />
+            <Font name="System Italic" size="15.0" />
          </font>
       </Label>
       <TextField fx:id="txtHoraReserva" layoutX="156.0" layoutY="472.0" prefHeight="25.0" prefWidth="212.0" promptText="HH:mm" />
       <Label layoutX="37.0" layoutY="524.0" text="Estado Reserva:">
          <font>
-            <Font size="16.0" />
+            <Font name="System Italic" size="15.0" />
          </font>
       </Label>
       <ComboBox fx:id="cmbEstadoReserva" layoutX="162.0" layoutY="524.0" prefHeight="25.0" prefWidth="200.0" />
-      <Button fx:id="btnAceptar" layoutX="476.0" layoutY="369.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar Reserva" />
-      <Button fx:id="btnModificar" layoutX="473.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar Reserva" />
-      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="536.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar Reserva" />
-      <MenuBar fx:id="menuBar" layoutX="-4.0" layoutY="2.0" prefHeight="31.0" prefWidth="762.0">
+      <Button fx:id="btnAceptar" layoutX="476.0" layoutY="369.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" style="-fx-background-color: #7eb4d4;" text="Aceptar Reserva" />
+      <Button fx:id="btnModificar" layoutX="473.0" layoutY="457.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="55.0" prefWidth="206.0" style="-fx-background-color: #7eb4d4;" text="Modificar Reserva" />
+      <Button fx:id="btnCancelar" layoutX="473.0" layoutY="536.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="55.0" prefWidth="206.0" style="-fx-background-color: #7eb4d4;" text="Cancelar Reserva" />
+      <MenuBar fx:id="menuBar" layoutX="-4.0" layoutY="2.0" prefHeight="40.0" prefWidth="762.0" style="-fx-background-color: #e3f6f5;">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
-              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Inicio de sesión" />
+              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Ir a inicio" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Gestionar horarios">
@@ -75,11 +75,6 @@
               <MenuItem fx:id="menuItemHistorial" mnemonicParsing="false" text="Visualizar" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Gestión">
-              <items>
-                <MenuItem fx:id="menuItemGestion" mnemonicParsing="false" text="Ir a gestion" />
-              </items>
-            </Menu>
             <Menu mnemonicParsing="false" text="Cerrar sesión">
               <items>
                 <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />

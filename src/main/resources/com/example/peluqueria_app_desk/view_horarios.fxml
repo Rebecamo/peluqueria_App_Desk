@@ -10,32 +10,42 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="631.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HorariosController">
+<AnchorPane prefHeight="631.0" prefWidth="740.0" style="-fx-background-color: #bae8e8;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.peluqueria_app_desk.HorariosController">
    <children>
-      <TableView fx:id="tblHorarios" layoutX="19.0" layoutY="75.0" prefHeight="241.0" prefWidth="699.0">
+      <TableView fx:id="tblHorarios" layoutX="21.0" layoutY="91.0" prefHeight="241.0" prefWidth="699.0" style="-fx-background-color: #78cccc;">
         <columns>
-          <TableColumn fx:id="clidHorario" prefWidth="75.0" text="ID Horario" />
-          <TableColumn fx:id="clidEmpleado" prefWidth="75.0" text="ID Empleado" />
-            <TableColumn fx:id="clDiaSemana" prefWidth="75.0" text="Día de semana" />
-            <TableColumn fx:id="clHoraEntrada" prefWidth="75.0" text="Hora de entrada" />
-            <TableColumn fx:id="clHoraSalida" prefWidth="75.0" text="Hora de salida" />
+          <TableColumn fx:id="clidHorario" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Horario" />
+          <TableColumn fx:id="clidEmpleado" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="ID Empleado" />
+            <TableColumn fx:id="clDiaSemana" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Día de semana" />
+            <TableColumn fx:id="clHoraEntrada" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Hora de entrada" />
+            <TableColumn fx:id="clHoraSalida" prefWidth="75.0" style="-fx-background-color: #55d6d6;" text="Hora de salida" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="btnAgregar" layoutX="520.0" layoutY="376.0" mnemonicParsing="false" onAction="#guardarHorario" prefHeight="52.0" prefWidth="130.0" text="Agregar horarios" />
-      <Button fx:id="btnModificar" layoutX="520.0" layoutY="444.0" mnemonicParsing="false" onAction="#clickModificarHorario" prefHeight="52.0" prefWidth="130.0" text="Modificar horarios" />
-      <Button fx:id="btnEliminar" layoutX="520.0" layoutY="516.0" mnemonicParsing="false" onAction="#clickEliminarHorario" prefHeight="52.0" prefWidth="130.0" text="Eliminar horarios" />
-      <Label layoutX="33.0" layoutY="555.0" text="Seleccione día de disponibilidad:" />
-      <Label layoutX="19.0" layoutY="442.0" text="Coloque la hora de entrada al trabajo:" />
-      <Label layoutX="19.0" layoutY="495.0" text="Coloque su hora de salida del trabajo:" />
-      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="32.0" prefWidth="740.0">
+      <Button fx:id="btnAgregar" layoutX="520.0" layoutY="376.0" mnemonicParsing="false" onAction="#guardarHorario" prefHeight="52.0" prefWidth="139.0" style="-fx-background-color: #7eb4d4;" text="Agregar horarios" />
+      <Button fx:id="btnModificar" layoutX="520.0" layoutY="444.0" mnemonicParsing="false" onAction="#clickModificarHorario" prefHeight="52.0" prefWidth="139.0" style="-fx-background-color: #7eb4d4;" text="Modificar horarios" />
+      <Button fx:id="btnEliminar" layoutX="520.0" layoutY="516.0" mnemonicParsing="false" onAction="#clickEliminarHorario" prefHeight="52.0" prefWidth="139.0" style="-fx-background-color: #7eb4d4;" text="Eliminar horarios" />
+      <Label layoutX="33.0" layoutY="555.0" text="Seleccione día de disponibilidad:">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></Label>
+      <Label layoutX="19.0" layoutY="442.0" text="Coloque la hora de entrada al trabajo:">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></Label>
+      <Label layoutX="19.0" layoutY="495.0" text="Coloque su hora de salida del trabajo:">
+         <font>
+            <Font size="13.0" />
+         </font></Label>
+      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="42.0" prefWidth="740.0" style="-fx-background-color: #e3f6f5;">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
-              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Inicio de sesión" />
+              <MenuItem fx:id="menuItemInicio" mnemonicParsing="false" text="Ir a inicio" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Gestionar reservas">
@@ -48,11 +58,6 @@
               <MenuItem fx:id="menuItemHistorial" mnemonicParsing="false" text="Vizualizar" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Gestión">
-              <items>
-                <MenuItem fx:id="menuItemAtras" mnemonicParsing="false" text="Ir a gestión" />
-              </items>
-            </Menu>
             <Menu mnemonicParsing="false" text="Cerrar sesión">
               <items>
                 <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />
@@ -61,12 +66,35 @@
             </Menu>
         </menus>
       </MenuBar>
-      <ComboBox fx:id="cmbDiaSemana" layoutX="232.0" layoutY="551.0" prefHeight="25.0" prefWidth="215.0" />
-      <TextField fx:id="txtIdHorario" layoutX="101.0" layoutY="340.0" prefHeight="25.0" prefWidth="58.0" />
-      <TextField fx:id="txtIdEmpleado" layoutX="101.0" layoutY="386.0" prefHeight="25.0" prefWidth="58.0" />
-      <Label layoutX="33.0" layoutY="344.0" text="ID Horario:" />
-      <Label layoutX="28.0" layoutY="390.0" text="ID Empleado:" />
-      <TextField fx:id="txtHoraInicio" layoutX="232.0" layoutY="438.0" prefHeight="25.0" prefWidth="215.0" />
-      <TextField fx:id="txtHoraFin" layoutX="232.0" layoutY="491.0" prefHeight="25.0" prefWidth="215.0" />
+      <ComboBox fx:id="cmbDiaSemana" layoutX="254.0" layoutY="551.0" prefHeight="25.0" prefWidth="215.0" style="-fx-background-color: #8fc0de;" />
+      <TextField fx:id="txtIdHorario" layoutX="159.0" layoutY="350.0" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #ffffff;">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <TextField fx:id="txtIdEmpleado" layoutX="159.0" layoutY="389.0" prefHeight="25.0" prefWidth="58.0" style="-fx-background-color: #ffffff;">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <Label layoutX="83.0" layoutY="354.0" text="ID Horario:">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></Label>
+      <Label layoutX="70.0" layoutY="393.0" text="ID Empleado:">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></Label>
+      <TextField fx:id="txtHoraInicio" layoutX="254.0" layoutY="439.0" prefHeight="25.0" prefWidth="215.0" style="-fx-background-color: #ffffff;">
+         <font>
+            <Font size="13.0" />
+         </font></TextField>
+      <TextField fx:id="txtHoraFin" layoutX="254.0" layoutY="491.0" prefHeight="25.0" prefWidth="215.0" style="-fx-background-color: #ffffff;">
+         <font>
+            <Font name="System Italic" size="13.0" />
+         </font></TextField>
+      <Label layoutX="254.0" layoutY="54.0" prefHeight="25.0" prefWidth="191.0" text="Gestión de Horarios">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

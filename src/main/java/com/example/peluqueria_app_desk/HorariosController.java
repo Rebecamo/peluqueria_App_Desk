@@ -110,7 +110,7 @@ public class HorariosController {
         });
 
 
-        menuItemAtras.setOnAction(event -> gestion());
+
         menuItemGestionReservas.setOnAction(event -> gestionReservas());
         menuItemHistorial.setOnAction(event -> historial());
         menuItemInicio.setOnAction(event -> inicio());
@@ -214,7 +214,7 @@ public class HorariosController {
         vistas("view_inicio.fxml"); // Redirige al login
     }
     private void inicio() {
-        vistas("view_login.fxml");
+        vistas("view_inicio.fxml");
     }
 
 
@@ -226,10 +226,7 @@ public class HorariosController {
         vistas("view_historial_reservas.fxml");
     }
 
-    private void gestion() {
 
-        vistas("view_Gestion.fxml"); // Redirige al login
-    }
 
     //clik para modificar listo
     @FXML

@@ -88,7 +88,7 @@ public class HistorialReservasController {
         }
     }
     private void inicio() {
-        vistas("view_login.fxml");
+        vistas("view_inicio.fxml");
     }
 
     private void gestionHorario() {
