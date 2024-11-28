@@ -32,6 +32,11 @@
                 <MenuItem fx:id="menuItemAtras" mnemonicParsing="false" text="Ir a gestión" />
               </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <TableView fx:id="tblClientesFrecuentes" layoutX="14.0" layoutY="102.0" prefHeight="174.0" prefWidth="369.0">
@@ -44,7 +49,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <TableView fx:id="tblReservasPorEmpleado" layoutX="402.0" layoutY="102.0" prefHeight="174.0" prefWidth="369.0">
+      <TableView fx:id="tblReservasPorEmpleado" layoutX="377.0" layoutY="51.0" prefHeight="174.0" prefWidth="369.0">
         <columns>
           <TableColumn fx:id="clidEmpleado" prefWidth="75.0" text="ID Empleado" />
           <TableColumn fx:id="clNombreEmpleado" prefWidth="75.0" text="Nombre empleado" />

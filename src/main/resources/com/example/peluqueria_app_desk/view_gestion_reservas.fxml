@@ -58,7 +58,7 @@
       <Button fx:id="btnAceptar" layoutX="476.0" layoutY="369.0" mnemonicParsing="false" onAction="#clickAceptar" prefHeight="55.0" prefWidth="200.0" text="Aceptar Reserva" />
       <Button fx:id="btnModificar" layoutX="473.0" layoutY="446.0" mnemonicParsing="false" onAction="#clickModificar" prefHeight="64.0" prefWidth="206.0" text="Modificar Reserva" />
       <Button fx:id="btnCancelar" layoutX="473.0" layoutY="536.0" mnemonicParsing="false" onAction="#clickCancelar" prefHeight="64.0" prefWidth="206.0" text="Cancelar Reserva" />
-      <MenuBar fx:id="menuBar" layoutX="-4.0" layoutY="2.0" prefHeight="25.0" prefWidth="762.0">
+      <MenuBar fx:id="menuBar" layoutX="-4.0" layoutY="2.0" prefHeight="31.0" prefWidth="762.0">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
@@ -78,6 +78,11 @@
             <Menu mnemonicParsing="false" text="Gestión">
               <items>
                 <MenuItem fx:id="menuItemGestion" mnemonicParsing="false" text="Ir a gestion" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />
               </items>
             </Menu>
         </menus>

@@ -3,14 +3,17 @@ package com.example.peluqueria_app_desk;
 
 import com.example.peluqueria_app_desk.Modelos.EmpleadoModel;
 
+import com.example.peluqueria_app_desk.Modelos.HorariosModel;
 import javafx.beans.value.ChangeListener;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
@@ -19,6 +22,7 @@ import javafx.scene.input.KeyCode;
 
 
 import java.io.IOException;
+import java.util.List;
 
 
 public class LoginController {
@@ -48,12 +52,13 @@ public class LoginController {
     private MenuItem menuItemInicio;
     @FXML
     private PasswordField txtPass;
-
+    @FXML
+    private ImageView imgLogin;
     @FXML
     private CheckBox ckbMostrarPass;
     @FXML
     private TextField txtPassVisible;
-     // Enlazar con el MenuBar en el FXML
+    private int idEmpleadoActivo = -1;
 
     private void habilitarMenuBar(boolean habilitar) {
         menuBar.setDisable(!habilitar);
@@ -61,13 +66,17 @@ public class LoginController {
 
     private final EmpleadoModel empleadoModel = new EmpleadoModel();
 
+
     public void initialize() {
+        Image imagen = new Image(getClass().getResourceAsStream("/Imagenes/inicio-sesion.jpeg"));
+        imgLogin.setImage(imagen);
         txtPassVisible.textProperty().bindBidirectional(txtPass.textProperty());
 
         configurarHabilitacionBoton();
         configurarCambioFoco();
         configurarVisualizacionContraseña();
         habilitarMenuBar(false);
+
 
 
         menuItemGestionarHorarios.setOnAction(event -> gestionHorario());
@@ -108,24 +117,10 @@ public class LoginController {
         vistas("view_historial_reservas.fxml");
     }
 
-    /* public void togglePasswordVisibility() {
-        if (ckbMostrarPass.isSelected()) {
-            // Mostrar el campo de texto visible
-            txtPassVisible.setText(txtPass.getText());
-            txtPassVisible.setVisible(true);
-            txtPassVisible.setManaged(true);
-            txtPass.setVisible(false);
-            txtPass.setManaged(false);
-        } else {
-            // Volver al PasswordField ocultando el campo visible
-            txtPass.setText(txtPassVisible.getText());
-            txtPass.setVisible(true);
-            txtPass.setManaged(true);
-            txtPassVisible.setVisible(false);
-            txtPassVisible.setManaged(false);
-        }
 
-    }*/
+
+
+
     private void configurarVisualizacionContraseña() {
 
         ckbMostrarPass.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -159,7 +154,7 @@ public class LoginController {
             }
         });
 
-        // Acciones para los campos de contraseña (PasswordField y TextField)
+
         txtPass.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 btnIngresar.fire();
@@ -189,8 +184,11 @@ public class LoginController {
 
 
     }
-    private void mostrarMensaje(String mensaje) {
-        lblMensaje.setText(mensaje);
+    private void mostrarAlerta(String titulo, String contenido, Alert.AlertType tipo) {
+        Alert alerta = new Alert(tipo);
+        alerta.setTitle(titulo);
+        alerta.setContentText(contenido);
+        alerta.showAndWait();
     }
     @FXML
     private void handleLogin() {
@@ -198,15 +196,28 @@ public class LoginController {
         String contraseña = txtPass.getText();
 
         if (correo.isEmpty() || contraseña.isEmpty()) {
-            mostrarMensaje("Por favor, complete todos los campos.");
+            mostrarAlerta("Error","Complete todos los campos por favor.", Alert.AlertType.WARNING);
             return;
         }
 
         int idEmpleado = empleadoModel.validarCredenciales(correo, contraseña);
 
         if (idEmpleado != -1) {
-            mostrarMensaje("Inicio de sesión exitoso.");
-                habilitarMenuBar(true);
+            Sesion.setIdEmpleado(idEmpleado);
+            habilitarMenuBar(true);
+          mostrarAlerta("Éxito","Se inicio sesión correctamente.", Alert.AlertType.INFORMATION);
+
+
+        } else {
+          mostrarAlerta("Error","Correo o contraseña incorrectos.",Alert.AlertType.ERROR);
+            habilitarMenuBar(false);
+        }
+
+
+
+
+
+
               /*  FXMLLoader loader = new FXMLLoader(getClass().getResource("view_Gestion.fxml"));
                 Parent root = loader.load();
 
@@ -221,9 +232,6 @@ public class LoginController {
                 currentStage.show();
             */
 
-        } else {
-            mostrarMensaje("Correo o contraseña incorrectos.");
-            habilitarMenuBar(false);
-        }
+
     }
 }

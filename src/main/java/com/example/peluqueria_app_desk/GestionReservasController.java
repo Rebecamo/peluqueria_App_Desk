@@ -64,6 +64,8 @@ public class GestionReservasController {
     private TextField txtidReserva;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private MenuItem menuItemCerrarSesion;
 
     @FXML
     private MenuItem menuItemGestion;
@@ -107,7 +109,7 @@ public class GestionReservasController {
         menuItemGestion.setOnAction(event -> gestion());
         menuItemHistorial.setOnAction(event -> historial());
         menuItemInicio.setOnAction(event -> inicio());
-
+        menuItemCerrarSesion.setOnAction(event -> cerrarSesion());
     }
     private void vistas(String fxmlFile) {
         try {
@@ -126,9 +128,12 @@ public class GestionReservasController {
         }
     }
     private void inicio() {
-        vistas("view_login.fxml");
+        vistas("view_inicio.fxml");
     }
-
+    private void cerrarSesion() {
+        System.out.println("Cerrando sesión...");
+        vistas("view_inicio.fxml"); // Redirige al login
+    }
     private void gestionHorario() {
         vistas("view_horarios.fxml");
     }
@@ -141,7 +146,7 @@ public class GestionReservasController {
 
     private void gestion() {
 
-        vistas("view_Gestion.fxml"); // Redirige al login
+        vistas("view_login.fxml"); // Redirige al login
     }
     // para pasasr el id del empleado
 

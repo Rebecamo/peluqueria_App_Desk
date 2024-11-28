@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
 
+
 public class HorariosModel {
     private int idHorario;
     private int idEmpleado; // Nuevo campo
@@ -14,7 +15,7 @@ public class HorariosModel {
     private String horaInicio;
     private String horaFin;
 
-    // Constructor con idEmpleado
+
     public HorariosModel(int idHorario, int idEmpleado, String diaSemana, String horaInicio, String horaFin) {
         this.idHorario = idHorario;
         this.idEmpleado = idEmpleado;
@@ -31,9 +32,7 @@ public class HorariosModel {
         return idHorario;
     }
 
-    public int getIdEmpleado() {
-        return idEmpleado;
-    }
+
 
     public String getDiaSemana() {
         return diaSemana;
@@ -49,6 +48,10 @@ public class HorariosModel {
 
     public void setIdHorario(int idHorario) {
         this.idHorario = idHorario;
+    }
+
+    public int getIdEmpleado() {
+        return idEmpleado;
     }
 
     public void setIdEmpleado(int idEmpleado) {
@@ -85,7 +88,7 @@ public class HorariosModel {
                 horarioModel.setIdEmpleado(resultSet.getInt("id_empleado")); // Nuevo campo
                 horarioModel.setDiaSemana(resultSet.getString("dia_semana"));
 
-                // Convertir hora de inicio y fin de Time a String (HH:mm)
+              //pasar horainicio y horafin a formato HH:mm
                 Time horaInicio = resultSet.getTime("hora_inicio");
                 Time horaFin = resultSet.getTime("hora_fin");
 
