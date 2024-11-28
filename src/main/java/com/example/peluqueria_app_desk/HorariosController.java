@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 
 import java.time.format.DateTimeParseException;
+import java.util.List;
 
 
 public class HorariosController {
@@ -51,6 +52,8 @@ public class HorariosController {
     @FXML
     private MenuItem menuItemHistorial;
     @FXML
+    private MenuItem menuItemCerrarSesion;
+    @FXML
     private Button btnAgregar;
 
     @FXML
@@ -60,19 +63,24 @@ public class HorariosController {
     private Button btnModificar;
     @FXML
     private MenuItem menuItemInicio;
+
     private final ObservableList<String> diasSemana = FXCollections.observableArrayList(
             "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"
     );
 
+
+
     @FXML
     public void initialize() {
-
+        txtIdEmpleado.setText(String.valueOf(Sesion.getIdEmpleado()));
         txtIdHorario.setEditable(false);
+        txtIdEmpleado.setEditable(false);
         txtIdEmpleado.setOnAction(event -> txtHoraInicio.requestFocus());
         txtHoraInicio.setOnAction(event -> txtHoraFin.requestFocus());
         btnAgregar.setFocusTraversable(false);
         btnModificar.setFocusTraversable(false);
         btnEliminar.setFocusTraversable(false);
+
 
 
 
@@ -84,7 +92,7 @@ public class HorariosController {
         cmbDiaSemana.setItems(diasSemana);
         this.cargarTabla();
 
-// Configurar el evento para seleccionar una fila
+
         this.tblHorarios.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -92,7 +100,7 @@ public class HorariosController {
 
                 // Asignar los valores del objeto seleccionado a los campos de la interfaz
                 txtIdHorario.setText(String.valueOf(horarioSeleccionado.getIdHorario()));
-                txtIdEmpleado.setText(String.valueOf(horarioSeleccionado.getIdEmpleado()));
+
                 cmbDiaSemana.setValue(horarioSeleccionado.getDiaSemana());
                 txtHoraInicio.setText(horarioSeleccionado.getHoraInicio());
                 txtHoraFin.setText(horarioSeleccionado.getHoraFin());
@@ -100,10 +108,14 @@ public class HorariosController {
 
             }
         });
+
+
         menuItemAtras.setOnAction(event -> gestion());
         menuItemGestionReservas.setOnAction(event -> gestionReservas());
         menuItemHistorial.setOnAction(event -> historial());
         menuItemInicio.setOnAction(event -> inicio());
+        menuItemCerrarSesion.setOnAction(event -> cerrarSesion());
+
     }
 
     public void cargarTabla() {
@@ -112,7 +124,7 @@ public class HorariosController {
             HorariosModel modelo = new HorariosModel();
             ObservableList<HorariosModel> listaHorarios = modelo.getHorarios(0); // 0 significa cargar todos los horarios
 
-            // Asignar la lista al TableView
+
             tblHorarios.setItems(listaHorarios);
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,36 +135,50 @@ public class HorariosController {
     @FXML
     public void guardarHorario() {
         try {
-            // Validar entradas
-            if (txtIdEmpleado.getText().isEmpty() || cmbDiaSemana.getValue() == null ||
+
+            if ( cmbDiaSemana.getValue() == null ||
                     txtHoraInicio.getText().isEmpty() || txtHoraFin.getText().isEmpty()) {
                 mostrarAlerta("Advertencia", "Todos los campos son obligatorios", Alert.AlertType.WARNING);
                 return;
             }
+
             LocalTime horaInicio;
             LocalTime horaFin;
             try {
-                horaInicio = LocalTime.parse(txtHoraInicio.getText()); // Parsear horaInicio
-                horaFin = LocalTime.parse(txtHoraFin.getText());       // Parsear horaFin
+                horaInicio = LocalTime.parse(txtHoraInicio.getText().trim()); // Parsear horaInicio
+                horaFin = LocalTime.parse(txtHoraFin.getText().trim());
+                if (!horaFin.isAfter(horaInicio.plusHours(6))) {
+                    mostrarAlerta("Error", "La jornada laboral debe ser de al menos 6 horas", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaInicio.isBefore(LocalTime.of(6, 0))) {
+                    mostrarAlerta("Error", "La hora de entrada no puede ser antes de las 06:00 AM", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaInicio.isAfter(LocalTime.of(13, 0))) {
+                    mostrarAlerta("Error", "La hora de entrada no puede ser después de las 13:00 PM", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaFin.isAfter(LocalTime.of(17, 0))) {
+                    mostrarAlerta("Error", "La hora de fin no puede ser después de las 17:00 PM", Alert.AlertType.ERROR);
+                    return;
+                }// Parsear horaFin
             } catch (DateTimeParseException e) {
                 mostrarAlerta("Error", "Las horas deben estar en el formato HH:mm (por ejemplo, 09:00 )", Alert.AlertType.ERROR);
                 return;
             }
-            if (horaFin.isBefore(horaInicio.plusHours(6))) {
-                mostrarAlerta("Error", "La jornada laboral debe ser de al menos 6 horas", Alert.AlertType.ERROR);
-                return;
-            }
 
-
-            // Crear una instancia del modelo
             HorariosModel nuevoHorario = new HorariosModel();
-            nuevoHorario.setIdEmpleado(Integer.parseInt(txtIdEmpleado.getText()));
+
+
+          nuevoHorario.setIdEmpleado(Sesion.getIdEmpleado());
             nuevoHorario.setDiaSemana(cmbDiaSemana.getValue());
             nuevoHorario.setHoraInicio(txtHoraInicio.getText());
             nuevoHorario.setHoraFin(txtHoraFin.getText());
 
-            // Guardar en la base de datos
+
             int resultado = nuevoHorario.saveHorario();
+
             if (resultado > 0) {
                 mostrarAlerta("Éxito", "Horario guardado correctamente", Alert.AlertType.INFORMATION);
                 cargarTabla(); // Actualizar la tabla
@@ -183,7 +209,10 @@ public class HorariosController {
             e.printStackTrace();
         }
     }
-
+    private void cerrarSesion() {
+        System.out.println("Cerrando sesión...");
+        vistas("view_inicio.fxml"); // Redirige al login
+    }
     private void inicio() {
         vistas("view_login.fxml");
     }
@@ -210,8 +239,8 @@ public class HorariosController {
             HorariosModel horarioSeleccionado = tblHorarios.getSelectionModel().getSelectedItem();
 
             // Obtener las horas ingresadas en los TextField
-            String nuevaHoraInicio = txtHoraInicio.getText();
-            String nuevaHoraFin = txtHoraFin.getText();
+            String nuevaHoraInicio = txtHoraInicio.getText().trim();
+            String nuevaHoraFin = txtHoraFin.getText().trim();
 
             // Validación del formato HH:mm para ambas horas
             if (!nuevaHoraInicio.matches("\\d{2}:\\d{2}") || !nuevaHoraFin.matches("\\d{2}:\\d{2}")) {
@@ -224,9 +253,25 @@ public class HorariosController {
                 LocalTime horaInicio = LocalTime.parse(nuevaHoraInicio);
                 LocalTime horaFin = LocalTime.parse(nuevaHoraFin);
 
-                // Verificar que la hora de inicio sea anterior a la hora de fin
+             //la hora de inicio debe ser anterior a la hora fin
                 if (horaInicio.isAfter(horaFin) || horaInicio.equals(horaFin)) {
                     mostrarAlerta("Error", "La hora de inicio debe ser anterior a la hora de fin.", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (!horaFin.isAfter(horaInicio.plusHours(6))) {
+                    mostrarAlerta("Error", "La jornada laboral debe ser de al menos 6 horas", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaInicio.isBefore(LocalTime.of(6, 0))) {
+                    mostrarAlerta("Error", "La hora de entrada no puede ser antes de las 06:00", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaInicio.isAfter(LocalTime.of(13, 0))) {
+                    mostrarAlerta("Error", "La hora de entrada no puede ser después de las 13:00", Alert.AlertType.ERROR);
+                    return;
+                }
+                if (horaFin.isAfter(LocalTime.of(17, 0))) {
+                    mostrarAlerta("Error", "La hora de salida no puede ser después de las 17:00", Alert.AlertType.ERROR);
                     return;
                 }
 

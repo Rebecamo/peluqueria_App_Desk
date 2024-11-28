@@ -31,7 +31,7 @@
       <Label layoutX="33.0" layoutY="555.0" text="Seleccione día de disponibilidad:" />
       <Label layoutX="19.0" layoutY="442.0" text="Coloque la hora de entrada al trabajo:" />
       <Label layoutX="19.0" layoutY="495.0" text="Coloque su hora de salida del trabajo:" />
-      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="25.0" prefWidth="740.0">
+      <MenuBar fx:id="menuBar" layoutY="2.0" prefHeight="32.0" prefWidth="740.0">
         <menus>
           <Menu mnemonicParsing="false" text="Inicio">
             <items>
@@ -51,6 +51,12 @@
             <Menu mnemonicParsing="false" text="Gestión">
               <items>
                 <MenuItem fx:id="menuItemAtras" mnemonicParsing="false" text="Ir a gestión" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Cerrar sesión">
+              <items>
+                <MenuItem fx:id="menuItemCerrarSesion" mnemonicParsing="false" text="Cerrar" />
+                  <MenuItem fx:id="menuItemCerrarSesion1" mnemonicParsing="false" text="Cerrar" />
               </items>
             </Menu>
         </menus>
