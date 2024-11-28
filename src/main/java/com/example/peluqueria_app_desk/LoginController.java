@@ -70,6 +70,9 @@ public class LoginController {
     public void initialize() {
         Image imagen = new Image(getClass().getResourceAsStream("/Imagenes/inicio-sesion.jpeg"));
         imgLogin.setImage(imagen);
+
+
+
         txtPassVisible.textProperty().bindBidirectional(txtPass.textProperty());
 
         configurarHabilitacionBoton();
@@ -218,19 +221,13 @@ public class LoginController {
 
 
 
-              /*  FXMLLoader loader = new FXMLLoader(getClass().getResource("view_Gestion.fxml"));
-                Parent root = loader.load();
 
-                // Obtener la ventana actual desde un botón, por ejemplo "btnIngresar"
-                Stage currentStage = (Stage) btnIngresar.getScene().getWindow();
 
-                // Crear una nueva escena con la raíz cargada
-                Scene scene = new Scene(root);
 
-                // Cambiar la escena de la ventana actual
-                currentStage.setScene(scene);
-                currentStage.show();
-            */
+
+
+
+
 
 
     }
